@@ -9,6 +9,16 @@
 	<modules>
 		<module>toeic-web</module>
 		<module>toeic-web-logic</module>
+		<module>toeic-core-dao</module>
+		<module>toeic-core-dao-impl</module>
+		<module>toeic-core-data</module>
+		<module>toeic-core-dto</module>
+		<module>toeic-core-service</module>
+		<module>toeic-core-service-impl</module>
+		<module>toeic-core-utils</module>
+		<module>toeic-core-persisence-data</module>
+
+		<module>toeic-core-commons</module>
 	</modules>
 
 	<properties>
