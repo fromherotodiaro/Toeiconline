@@ -10,4 +10,16 @@
 
 	</parent>
 	<artifactId>toeic-core-dao</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>com.centurion</groupId>
+			<artifactId>toeic-core-data</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.centurion</groupId>
+			<artifactId>toeic-core-persistence-data</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 </project>
