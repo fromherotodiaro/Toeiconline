@@ -33,7 +33,6 @@ public class ListenGuidelineEntity {
 
 	public ListenGuidelineEntity() {
 
-		// TODO Auto-generated constructor stub
 	}
 
 	public ListenGuidelineEntity(Integer listenGuideLineid, String tittle, String image, String content,

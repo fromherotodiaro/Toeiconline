@@ -62,7 +62,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			list = query.list();
 			transaction.commit();
 		} catch (HibernateException e) {
-			// TODO: handle exception
+	
 			transaction.rollback();
 			throw e;
 		} finally {
@@ -84,7 +84,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
-			// TODO: handle exception
+		
 			transaction.rollback();
 			throw e;
 		} finally {
@@ -104,7 +104,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
-			// TODO: handle exception
+		
 			transaction.rollback();
 			throw e;
 		} finally {
@@ -128,11 +128,11 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
-			// TODO: handle exception
+			
 			transaction.rollback();
 			throw e;
 		} catch (ObjectNotFoundException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -183,7 +183,6 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
-			// TODO: handle exception
 			transaction.rollback();
 			throw e;
 
@@ -212,7 +211,6 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
-			// TODO: handle exception
 			transaction.rollback();
 			throw e;
 		} finally {
