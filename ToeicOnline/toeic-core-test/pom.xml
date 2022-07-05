@@ -25,11 +25,11 @@
 			<artifactId>toeic-core-dao-impl</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.centurion</groupId>
 			<artifactId>toeic-web</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 </project>
 

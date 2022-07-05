@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@include file="/common/taglib.jsp"%>
-<c:redirect url="/login.html"/>
-
-
-
-
+<div>
+	<h2>Header</h2>
+	<hr />
+</div>
