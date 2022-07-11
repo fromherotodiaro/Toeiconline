@@ -5,20 +5,20 @@ import com.centurion.core.persistence.entity.UserEntity;
 
 public class UserBeanUtil {
 
-	public static UserDTO entity2Dto( UserEntity entity) {
+	public static UserDTO entity2Dto(UserEntity entity) {
 
 		UserDTO dto = new UserDTO();
-			dto.setUserId(entity.getUserId());
-			dto.setName(entity.getName());
-			dto.setPassword(entity.getPassword());
-			dto.setFullName(entity.getFullName());
-			dto.setCreatedDate(entity.getCreatedDate());
-			dto.setRoleDTO(RoleBeanUtil.entity2Dto(entity.getRole()));
-			 
+		dto.setUserId(entity.getUserId());
+		dto.setName(entity.getName());
+		dto.setPassword(entity.getPassword());
+		dto.setFullName(entity.getFullName());
+		dto.setCreatedDate(entity.getCreatedDate());
+		dto.setRoleDTO(RoleBeanUtil.entity2Dto(entity.getRoleEntity()));
+
 		return dto;
 	}
-	
-	public static UserEntity dto2Entity( UserDTO dto) {
+
+	public static UserEntity dto2Entity(UserDTO dto) {
 
 		UserEntity entity = new UserEntity();
 		entity.setUserId(dto.getUserId());
@@ -26,8 +26,8 @@ public class UserBeanUtil {
 		entity.setPassword(dto.getPassword());
 		entity.setFullName(dto.getFullName());
 		entity.setCreatedDate(dto.getCreatedDate());
-		entity.setRole(RoleBeanUtil.dto2Entity(dto.getRoleDTO()));
-			 
+		entity.setRoleEntity(RoleBeanUtil.dto2Entity(dto.getRoleDTO()));
+
 		return entity;
 	}
 

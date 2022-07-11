@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -28,13 +27,13 @@ public class UserEntity {
 	private String fullName;
 	@Column(name = "createddate")
 	private Timestamp createdDate;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "roleid")
 	private RoleEntity role;
-	
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private List<CommentEntity> commentList; 
+	private List<CommentEntity> commentList;
 
 	public UserEntity() {
 
@@ -88,11 +87,11 @@ public class UserEntity {
 		this.createdDate = createdDate;
 	}
 
-	public RoleEntity getRole() {
+	public RoleEntity getRoleEntity() {
 		return role;
 	}
 
-	public void setRole(RoleEntity role) {
+	public void setRoleEntity(RoleEntity role) {
 		this.role = role;
 	}
 
@@ -103,7 +102,5 @@ public class UserEntity {
 	public void setCommentList(List<CommentEntity> commentList) {
 		this.commentList = commentList;
 	}
-	
-	
 
 }
