@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+        
     <wb-module deploy-name="toeic-web-0.0.1-SNAPSHOT">
+                
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+                
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <dependent-module archiveName="toeic-web-logic-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-web-logic/toeic-web-logic">
             <dependency-type>uses</dependency-type>
@@ -13,10 +18,35 @@
         <dependent-module archiveName="toeic-core-web-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-core-web/toeic-core-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="toeic-core-service-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-core-service/toeic-core-service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="toeic-core-service-impl-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-core-service-impl/toeic-core-service-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="toeic-core-dao-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-core-dao/toeic-core-dao">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="toeic-core-data-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-core-data/toeic-core-data">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="toeic-core-commons-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-core-commons/toeic-core-commons">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="toeic-core-dao-impl-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-core-dao-impl/toeic-core-dao-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="toeic-core-utils-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-core-utils/toeic-core-utils">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="toeic-core-persistence-data-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/toeic-core-persistence-data/toeic-core-persistence-data">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+                
         <property name="context-root" value="toeic-web"/>
+                
         <property name="java-output-path" value="/toeic-web/target/classes"/>
+            
     </wb-module>
+    
 </project-modules>

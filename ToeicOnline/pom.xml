@@ -35,6 +35,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<testng.version>7.1.0</testng.version>
 		<log4j.version>1.2.17</log4j.version>
+		<beanutils.version>1.9.3</beanutils.version>
 
 	</properties>
 
@@ -85,13 +86,18 @@
 			<scope>test</scope>
 		</dependency>
 		<!--log4j -->
-		
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>${beanutils.version}</version>
+		</dependency>
 
 	</dependencies>
 

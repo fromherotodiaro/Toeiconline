@@ -10,4 +10,17 @@
 
 	</parent>
 	<artifactId>toeic-core-service</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>com.centurion</groupId>
+			<artifactId>toeic-core-dto</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.centurion</groupId>
+			<artifactId>toeic-core-persistence-data</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
 </project>
