@@ -9,21 +9,16 @@
 <dec:head />
 
 <!-- bootstrap & fontawesome -->
-<link rel="stylesheet"
-	href="<c:url value="/template/admin/css/bootstrap.min.css"/>" />
-
-<link rel="stylesheet"
-	href="<c:url value="/template/admin/font-awesome/4.5.0/css/font-awesome.min.css"/>" />
+<link rel="stylesheet" href="<c:url value='/template/admin/assets/css/bootstrap.min.css'/>"/>
+    <link rel="stylesheet" href="<c:url value='/template/admin/assets/font-awesome/4.2.0/css/font-awesome.min.css'/>"/>
 <!-- page specific plugin styles -->
 <!-- text fonts -->
-<link rel="stylesheet"
-	href="<c:url value="/template/admin/css/fonts.googleapis.com.css"/>" />
+<link rel="stylesheet" href="<c:url value='/template/admin/assets/fonts/fonts.googleapis.com.css'/>"/>
 <!-- ace styles -->
-<link rel="stylesheet"
-	href="<c:url value="/template/admin/css/ace.min.css"/>"
-	class="ace-main-stylesheet" id="main-ace-style" />
+<link rel="stylesheet" href="<c:url value='/template/admin/assets/css/ace.min.css'/>" class="ace-main-stylesheet" id="main-ace-style" />
 <!-- ace settings handler -->
-<script src="<c:url value="/template/admin/js/ace-extra.min.js"/>"></script>
+ <script src="<c:url value='/template/admin/assets/js/ace-extra.min.js'/>"></script>
+    <dec:head/>
 </head>
 <body class="login-layout">
 
@@ -51,23 +46,22 @@
 	</div>
 
 
-	<script src="<c:url value="/template/admin/js/bootstrap.min.js"/>"></script>
+	<script src="<c:url value='/template/admin/assets/js/bootstrap.min.js'/>"></script>
 	<!-- page specific plugin scripts -->
+	<script src="<c:url value='/template/admin/assets/js/excanvas.min.js'/>"></script>
 	<script
-		src="<c:url value="/template/admin/js/jquery-ui.custom.min.js"/>"></script>
+		src="<c:url value="/template/admin/assets/js/jquery.ui.touch-punch.min.js"/>"></script>
 	<script
-		src="<c:url value="/template/admin/js/jquery.ui.touch-punch.min.js"/>"></script>
+		src="<c:url value="/template/admin/assets/js/jquery.easypiechart.min.js"/>"></script>
 	<script
-		src="<c:url value="/template/admin/js/jquery.easypiechart.min.js"/>"></script>
+		src="<c:url value="/template/admin/assets/js/jquery.sparkline.min.js"/>"></script>
+	<script src="<c:url value="/template/admin/assets/js/jquery.flot.min.js"/>"></script>
 	<script
-		src="<c:url value="/template/admin/js/jquery.sparkline.index.min.js"/>"></script>
-	<script src="<c:url value="/template/admin/js/jquery.flot.min.js"/>"></script>
+		src="<c:url value="/template/admin/assets/js/jquery.flot.pie.min.js"/>"></script>
 	<script
-		src="<c:url value="/template/admin/js/jquery.flot.pie.min.js"/>"></script>
-	<script
-		src="<c:url value="/template/admin/js/jquery.flot.resize.min.js"/>"></script>
+		src="<c:url value="/template/admin/assets/js/jquery.flot.resize.min.js"/>"></script>
 	<!-- ace scripts -->
-	<script src="<c:url value="/template/admin/js/ace-elements.min.js"/>"></script>
-	<script src="<c:url value="/template/admin/js/ace.min.js"/>"></script>
+	<script src="<c:url value="/template/admin/assets/js/ace-elements.min.js"/>"></script>
+	<script src="<c:url value="/template/admin/assets/js/ace.min.js"/>"></script>
 </body>
 </html>
