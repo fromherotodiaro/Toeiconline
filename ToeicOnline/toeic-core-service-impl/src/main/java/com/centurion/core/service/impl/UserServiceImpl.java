@@ -12,14 +12,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO isUserExist(UserDTO dto) {
 		UserDao userDao = new UserDaoImpl();
-		UserEntity entity = userDao.isUserExist(dto.getName(), dto.getPassword());
+		/* UserEntity entity = userDao.isUserExist(dto.getName(), dto.getPassword()); */
+		UserEntity entity = userDao.findUserByNameAndPassword(dto.getName(), dto.getPassword());
 		return UserBeanUtil.entity2Dto(entity);
 	}
 
 	@Override
 	public UserDTO findRoleByUser(UserDTO dto) {
 		UserDao userDao = new UserDaoImpl();
-		UserEntity entity = userDao.findRoleByUser(dto.getName(), dto.getPassword());
+		UserEntity entity = userDao.findUserByNameAndPassword(dto.getName(), dto.getPassword());
 		return UserBeanUtil.entity2Dto(entity);
 	}
 

@@ -15,7 +15,7 @@ public class LoginTest {
 		UserDao userDao = new UserDaoImpl();
 		String name = "centurion";
 		String password = "123456";
-		UserEntity entity = userDao.isUserExist(name, password);
+		UserEntity entity = userDao.findUserByNameAndPassword(name, password);
 		if (entity != null) {
 			log.error("login success");
 		} else {
@@ -29,7 +29,7 @@ public class LoginTest {
 		UserDao userDao = new UserDaoImpl();
 		String name = "centurion";
 		String password = "123456";
-		UserEntity entity = userDao.findRoleByUser(name, password);
+		UserEntity entity = userDao.findUserByNameAndPassword(name, password);
 		log.error(entity.getRoleEntity().getRoleid() + "-" + entity.getRoleEntity().getName());
 	}
 
