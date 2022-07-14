@@ -62,7 +62,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			list = query.list();
 			transaction.commit();
 		} catch (HibernateException e) {
-	
+
 			transaction.rollback();
 			throw e;
 		} finally {
@@ -84,7 +84,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
-		
+
 			transaction.rollback();
 			throw e;
 		} finally {
@@ -104,7 +104,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
-		
+
 			transaction.rollback();
 			throw e;
 		} finally {
@@ -119,7 +119,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 		try {
-			result = (T) session.get(persistenceClass, id);
+			result = session.get(persistenceClass, id);
 
 			if (result == null) {
 				throw new ObjectNotFoundException(" " + id, null);
@@ -128,21 +128,25 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
-			
+
 			transaction.rollback();
 			throw e;
 		} catch (ObjectNotFoundException e) {
-		
+
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 		return result;
 	}
+
 //findByProperty trả về số bản ghi và danh sách
+
+	List<T> list = new ArrayList<T>();
+
 	@Override
-	public Object[] findByProperty(String property, Object value, String sortExpression, String sortDirection) {
-		List<T> list = new ArrayList<T>();
+	public Object[] findByProperty(String property, Object value, String sortExpression, String sortDirection,
+			Integer offset, Integer limit) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		Object totalItem = 0;
@@ -163,6 +167,15 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 
 			if (value != null) {
 				query1.setParameter("value", value);
+			}
+
+			if (offset != null && offset >= 0) {
+
+				query1.setFirstResult(offset);
+			}
+
+			if (limit != null && limit > 0) {
+				query1.setMaxResults(limit);
 			}
 
 			list = query1.list();
@@ -198,16 +211,16 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 		Integer count = 0;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
-		
+
 		try {
-			
+
 			for (ID id : ids) {
-				
-				T t = (T) session.get(persistenceClass, id);
+
+				T t = session.get(persistenceClass, id);
 				session.delete(t);
 				count++;
 			}
-		
+
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
@@ -217,23 +230,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			session.close();
 		}
 		return count;
-	
+
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

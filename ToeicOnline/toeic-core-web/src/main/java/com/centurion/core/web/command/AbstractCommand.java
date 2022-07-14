@@ -11,7 +11,7 @@ public class AbstractCommand<T> {
 	private String sortExpression;
 	private String sortDirection;
 	private String[] checkList;// check box list
-	private List<T> listResult;
+	private List<T> listResult; // Tương ứng name trong displaytag
 	private String tableId = "tableList";// chứa id do displaytag table sinh ra
 	private String messageResponse;
 	private int page = 1;
