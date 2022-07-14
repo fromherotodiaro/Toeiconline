@@ -147,6 +147,8 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 	@Override
 	public Object[] findByProperty(String property, Object value, String sortExpression, String sortDirection,
 			Integer offset, Integer limit) {
+		// sortExpression columns
+		// sortDirection 1 or 2
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = null;
 		Object totalItem = 0;
