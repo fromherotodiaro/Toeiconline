@@ -14,7 +14,7 @@ public class ListenGuidelineBeanUtil {
 
 		ListenGuidelineDTO dto = new ListenGuidelineDTO();
 		dto.setListenGuideLineId(entity.getListenGuideLineid());
-		dto.setTittle(entity.getTittle());
+		dto.setTitle(entity.getTitle());
 		dto.setImage(entity.getImage());
 		dto.setContent(entity.getContent());
 		dto.setCreatedDate(entity.getCreatedDate());

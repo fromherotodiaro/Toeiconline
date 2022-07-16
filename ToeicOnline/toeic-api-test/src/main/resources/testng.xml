@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="TestAll">
-	<test name="case1">
+	<test name="case">
 		<classes>
-			<class name="vn.myclass.api.test.LoginTest" />
-			<class name="vn.myclass.api.test.ListenGuidelineTest" />
-			<class name="vn.myclass.api.test.reviewHashMap" />
+			<class name="com.centurion.api.test.LoginTest" />
+			<class name="com.centurion.api.test.ListenGuidelineTest" />
 		</classes>
 	</test>
 </suite>

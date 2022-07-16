@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -145,30 +146,59 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 	List<T> list = new ArrayList<T>();
 
 	@Override
-	public Object[] findByProperty(String property, Object value, String sortExpression, String sortDirection,
+	public Object[] findByProperty(Map<String, Object> property, String sortExpression, String sortDirection,
 			Integer offset, Integer limit) {
 		// sortExpression columns
 		// sortDirection 1 or 2
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = null;
+		Transaction transaction = session.beginTransaction();
 		Object totalItem = 0;
+
+		String[] params = new String[property.size()];
+		Object[] values = new Object[property.size()];
+		int i = 0;
+		for (Map.Entry<String, Object> item : property.entrySet()) {
+			params[i] = item.getKey();
+			values[i] = item.getValue();
+			i++;
+		}
+
 		try {
-			transaction = session.beginTransaction();
 
 			StringBuilder sql1 = new StringBuilder("from ");
 			sql1.append(getPersistenceClassName());
 
-			if (property != null && value != null) {
-				sql1.append(" where ").append(property).append("= :value");
+			if (property.size() > 0) {
+
+				for (int i1 = 0; i1 < params.length; i1++) {
+					if (i1 == 0) {
+						sql1.append(" where ").append(params[i1]).append("= :" + params[i1] + "");
+					} else {
+						sql1.append(" and ").append(params[i1]).append("= :" + params[i1] + "");
+					}
+
+				}
+
 			}
+
+//			if (property != null && value != null) {
+//				sql1.append(" where ").append(property).append("= :value");
+//			}
 			if (sortExpression != null && sortDirection != null) {
 				sql1.append(" order by ").append(sortExpression);
 				sql1.append(" " + (sortDirection.equals(CoreConstant.SORT_ASC) ? "asc" : "desc"));
 			}
 			Query query1 = session.createQuery(sql1.toString());
 
-			if (value != null) {
-				query1.setParameter("value", value);
+//			if (value != null) {
+//				query1.setParameter("value", value);
+//			}
+
+			if (property.size() > 0) {
+
+				for (int i2 = 0; i2 < params.length; i2++) {
+					query1.setParameter(params[i2], values[i2]);
+				}
 			}
 
 			if (offset != null && offset >= 0) {
@@ -185,13 +215,30 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			StringBuilder sql2 = new StringBuilder("select count(*) from ");
 			sql2.append(getPersistenceClassName());
 
-			if (property != null && value != null) {
-				sql2.append(" where ").append(property).append("= :value");
+//			if (property != null && value != null) {
+//				sql2.append(" where ").append(property).append("= :value");
+//			}
+			if (property.size() > 0) {
+
+				for (int k1 = 0; k1 < params.length; k1++) {
+					if (k1 == 0) {
+						sql2.append(" where ").append(params[k1]).append("= :" + params[k1] + "");
+					} else {
+						sql2.append(" and ").append(params[k1]).append("= :" + params[k1] + "");
+					}
+
+				}
 			}
 
 			Query query2 = session.createQuery(sql2.toString());
-			if (value != null) {
-				query2.setParameter("value", value);
+//			if (value != null) {
+//				query2.setParameter("value", value);
+//			}
+			if (property.size() > 0) {
+
+				for (int k2 = 0; k2 < params.length; k2++) {
+					query2.setParameter(params[k2], values[k2]);
+				}
 			}
 			totalItem = query2.list().get(0);
 

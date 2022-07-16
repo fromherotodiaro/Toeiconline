@@ -20,7 +20,6 @@
 		<module>toeic-core-persistence-data</module>
 		<module>toeic-core-web</module>
 		<module>toeic-api-test</module>
-		<module>toeic-api-tests</module>
 	</modules>
 
 	<properties>
