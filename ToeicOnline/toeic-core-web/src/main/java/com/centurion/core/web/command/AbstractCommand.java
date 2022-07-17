@@ -15,6 +15,15 @@ public class AbstractCommand<T> {
 	private String tableId = "tableList";// chứa id do displaytag table sinh ra
 	private String messageResponse;
 	private int page = 1;
+	private String urlType;
+
+	public String getUrlType() {
+		return urlType;
+	}
+
+	public void setUrlType(String urlType) {
+		this.urlType = urlType;
+	}
 
 	public T getPojo() {
 		return pojo;
