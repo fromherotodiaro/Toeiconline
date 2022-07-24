@@ -35,7 +35,7 @@
 		<testng.version>7.1.0</testng.version>
 		<log4j.version>1.2.17</log4j.version>
 		<beanutils.version>1.9.3</beanutils.version>
-		 <displaytag.version>1.2</displaytag.version>
+		<displaytag.version>1.2</displaytag.version>
 
 	</properties>
 
@@ -98,25 +98,38 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>${beanutils.version}</version>
 		</dependency>
-		<!--display tag-->
-        <dependency>
-            <groupId>displaytag</groupId>
-            <artifactId>displaytag</artifactId>
-            <version>${displaytag.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>jcl104-over-slf4j</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		<!--display tag -->
+		<dependency>
+			<groupId>displaytag</groupId>
+			<artifactId>displaytag</artifactId>
+			<version>${displaytag.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl104-over-slf4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<!-- apache up load file -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+
 
 	</dependencies>
-	
+
 
 	<build>
 		<plugins>
