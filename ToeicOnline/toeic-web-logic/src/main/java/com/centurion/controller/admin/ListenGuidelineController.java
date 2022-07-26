@@ -1,7 +1,10 @@
 package com.centurion.controller.admin;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,9 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.log4j.Logger;
 
 import com.centurion.command.ListenGuideLineCommand;
 import com.centurion.core.commons.utils.UploadUtil;
+import com.centurion.core.service.ListenGuidelineService;
+import com.centurion.core.service.impl.ListenGuidelineServiceImpl;
 import com.centurion.core.web.common.WebConstant;
 import com.centurion.core.web.utils.FormUtil;
 
@@ -22,7 +28,8 @@ import com.centurion.core.web.utils.FormUtil;
 @WebServlet(urlPatterns = { "/admin-guideline-listen-list.html", "/admin-guideline-listen-edit.html" })
 public class ListenGuidelineController extends HttpServlet {
 
-//	private ListenGuidelineService guidelineService = new ListenGuidelineServiceImpl();
+	private ListenGuidelineService guidelineService = new ListenGuidelineServiceImpl();
+	private final Logger log = Logger.getLogger(this.getClass());
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -54,31 +61,55 @@ public class ListenGuidelineController extends HttpServlet {
 		}
 		session.removeAttribute(WebConstant.ALERT);
 		session.removeAttribute(WebConstant.MESSAGE_RESPONSE);
-
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ListenGuideLineCommand command = new ListenGuideLineCommand();
 		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
 		UploadUtil uploadUtil = new UploadUtil();
 		HttpSession session = req.getSession();
+		Set<String> valueTitle = buildSetValueListenGuideline();
+
 		try {
-			uploadUtil.writeOrUpdateFile(req);
-			/*
-			 * request.setAttribute(WebConstant.ALERT, WebConstant.TYPE_SUCCESS);
-			 * request.setAttribute(WebConstant.MESSAGE_RESPONSE,
-			 * bundle.getString("label.guideline.listen.add.success"));
-			 */
+			Object[] objects = uploadUtil.writeOrUpdateFile(req, valueTitle, WebConstant.LISTENGUIDELINE);
+			Map<String, String> mapValue = (Map<String, String>) objects[3];
+			command = returnValueListenGuidelineCommand(valueTitle, command, mapValue);
+
 			session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_SUCCESS);
 			session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.guideline.listen.add.success"));
 		} catch (FileUploadException e) {
-			req.setAttribute(WebConstant.ALERT, WebConstant.TYPE_ERROR);
-			req.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.error"));
+			log.error(e.getMessage(), e);
+			session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_ERROR);
+			session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.error"));
 		} catch (Exception e) {
-			req.setAttribute(WebConstant.ALERT, WebConstant.TYPE_ERROR);
-			req.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.error"));
+			log.error(e.getMessage(), e);
+			session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_ERROR);
+			session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.error"));
 		}
-		resp.sendRedirect("admin-guideline-listen-edit.html?urlType=url_list");
+		resp.sendRedirect("admin-guideline-listen-list.html?urlType=url_list");
+	}
+
+	private ListenGuideLineCommand returnValueListenGuidelineCommand(Set<String> valueTitle,
+			ListenGuideLineCommand command, Map<String, String> mapValue) {
+		for (String item : valueTitle) {
+			if (mapValue.containsKey(item)) {
+				if (item.equals("pojo.title")) {
+					command.getPojo().setTitle(mapValue.get(item));
+				} else if (item.equals("pojo.content")) {
+					command.getPojo().setContent(mapValue.get(item));
+				}
+			}
+		}
+		return command;
+	}
+
+	private Set<String> buildSetValueListenGuideline() {
+		Set<String> returnValue = new HashSet<String>();
+		returnValue.add("pojo.title");
+		returnValue.add("pojo.content");
+		return returnValue;
+
 	}
 
 }
