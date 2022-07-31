@@ -33,7 +33,7 @@
 								${messageResponse}
 							</div>
 						</c:if>
-						<form action="${formUrl}" method="post" enctype="multipart/form-data">
+						<%-- <form action="${formUrl}" method="post" enctype="multipart/form-data">
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.guideline.title"
 										bundle="${lang}" /></label>
@@ -63,7 +63,7 @@
 										value="<fmt:message key="label.done" bundle="${lang}"/>" />
 								</div>
 							</div>
-						</form>
+						</form> --%>
 					</div>
 				</div>
 			</div>
