@@ -114,7 +114,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 	}
 
 	@Override
-	public T findId(ID id) {
+	public T findById(ID id) {
 
 		T result = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();

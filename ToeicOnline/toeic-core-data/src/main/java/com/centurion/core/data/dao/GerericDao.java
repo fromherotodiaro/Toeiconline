@@ -14,7 +14,7 @@ public interface GerericDao<ID extends Serializable, T> {
 
 	void save(T entity);
 
-	T findId(ID id);
+	T findById(ID id);
 
 	Object[] findByProperty(Map<String, Object> property, String sortExpression, String sortDirection, Integer offset,
 			Integer limit);

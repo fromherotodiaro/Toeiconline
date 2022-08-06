@@ -11,4 +11,6 @@ public interface UserService {
 
 	Object[] findByProperty(Map<String, Object> property, String sortExpression, String sortDirection, Integer offset,
 			Integer limit);
+
+	UserDTO findById(Integer userId);
 }
