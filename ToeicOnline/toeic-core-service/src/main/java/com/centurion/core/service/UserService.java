@@ -13,4 +13,8 @@ public interface UserService {
 			Integer limit);
 
 	UserDTO findById(Integer userId);
+
+	void saveUser(UserDTO userDTO);
+
+	UserDTO updateUser(UserDTO userDTO);
 }

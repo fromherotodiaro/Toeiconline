@@ -1,5 +1,6 @@
 package com.centurion.core.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,24 @@ public class UserServiceImpl implements UserService {
 		UserEntity entity = userDao.findById(userId);
 		UserDTO dto = UserBeanUtil.entity2Dto(entity);
 		return dto;
+	}
+
+	@Override
+	public void saveUser(UserDTO userDTO) {
+		Timestamp createDate = new Timestamp(System.currentTimeMillis());
+		userDTO.setCreatedDate(createDate);
+		UserEntity entity = UserBeanUtil.dto2Entity(userDTO);
+		userDao.save(entity);
+	}
+
+	@Override
+	public UserDTO updateUser(UserDTO userDTO) {
+		Timestamp createDate = new Timestamp(System.currentTimeMillis());
+		userDTO.setCreatedDate(createDate);
+		UserEntity entity = UserBeanUtil.dto2Entity(userDTO);
+		userDao.update(entity);
+		userDTO = UserBeanUtil.entity2Dto(entity);
+		return userDTO;
 	}
 
 }

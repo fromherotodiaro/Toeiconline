@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import com.centurion.command.UserCommand;
 import com.centurion.core.dto.UserDTO;
 import com.centurion.core.service.RoleService;
@@ -25,6 +27,7 @@ import com.centurion.core.web.utils.WebCommonUtil;
 
 @WebServlet(urlPatterns = { "/admin-user-list.html", "/ajax-admin-user-edit.html" })
 public class UserController extends HttpServlet {
+	private final Logger log = Logger.getLogger(this.getClass());
 	UserService userService = new UserServiceImpl();
 	RoleService roleService = new RoleServiceImpl();
 
@@ -41,9 +44,8 @@ public class UserController extends HttpServlet {
 			command.setListResult((List<UserDTO>) objects[1]);
 			command.setTotalItems(Integer.parseInt(objects[0].toString()));
 			request.setAttribute(WebConstant.LIST_ITEMS, command);
-			if (command.getCrudaction() != null && command.getCrudaction().equals(WebConstant.REDIRECT_INSERT)) {
-				Map<String, String> mapMessage = new HashMap<String, String>();
-				mapMessage.put(WebConstant.REDIRECT_INSERT, bundle.getString("label.user.message.add.success"));
+			if (command.getCrudaction() != null) {
+				Map<String, String> mapMessage = buildMapRedirectMessage(bundle);
 				WebCommonUtil.addRedirectMessage(request, command.getCrudaction(), mapMessage);
 			}
 			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/list.jsp");
@@ -59,15 +61,39 @@ public class UserController extends HttpServlet {
 		}
 	}
 
+	private Map<String, String> buildMapRedirectMessage(ResourceBundle bundle) {
+		Map<String, String> mapMessage = new HashMap<String, String>();
+		mapMessage.put(WebConstant.REDIRECT_INSERT, bundle.getString("label.user.message.add.success"));
+		mapMessage.put(WebConstant.REDIRECT_UPDATE, bundle.getString("label.user.message.update.success"));
+		mapMessage.put(WebConstant.REDIRECT_DELETE, bundle.getString("label.user.message.delete.success"));
+		mapMessage.put(WebConstant.REDIRECT_ERROR, bundle.getString("label.message.error"));
+		return mapMessage;
+	}
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		UserCommand command = FormUtil.populate(UserCommand.class, request);
-		if (command.getUrlType().equals(WebConstant.URL_EDIT)) {
-			if (command.getCrudaction() != null && command.getCrudaction().equals(WebConstant.INSERT_UPDATE)) {
-				request.setAttribute(WebConstant.MESSAGE_RESPONSE, "insert_success");
+		try {
+			UserCommand command = FormUtil.populate(UserCommand.class, request);
+			UserDTO pojo = command.getPojo();
+			if (command.getUrlType().equals(WebConstant.URL_EDIT)) {
+				if (command.getCrudaction() != null && command.getCrudaction().equals(WebConstant.INSERT_UPDATE)) {
+					if (pojo != null && pojo.getUserId() != null) {
+//						update
+						userService.updateUser(pojo);
+						request.setAttribute(WebConstant.MESSAGE_RESPONSE, WebConstant.REDIRECT_UPDATE);
+					} else {
+//						 save
+						userService.saveUser(pojo);
+						request.setAttribute(WebConstant.MESSAGE_RESPONSE, WebConstant.REDIRECT_INSERT);
+					}
+				}
 			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			request.setAttribute(WebConstant.MESSAGE_RESPONSE, WebConstant.REDIRECT_ERROR);
 		}
+
 		RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/edit.jsp");
 		rd.forward(request, response);
 
