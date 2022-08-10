@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.centurion.command.UserCommand;
+import com.centurion.core.dto.RoleDTO;
 import com.centurion.core.dto.UserDTO;
 import com.centurion.core.service.RoleService;
 import com.centurion.core.service.UserService;
@@ -78,6 +79,9 @@ public class UserController extends HttpServlet {
 			UserDTO pojo = command.getPojo();
 			if (command.getUrlType().equals(WebConstant.URL_EDIT)) {
 				if (command.getCrudaction() != null && command.getCrudaction().equals(WebConstant.INSERT_UPDATE)) {
+					RoleDTO roleDTO = new RoleDTO();
+					roleDTO.setRoleId(command.getRoleId());
+					pojo.setRoleDTO(roleDTO);
 					if (pojo != null && pojo.getUserId() != null) {
 //						update
 						userService.updateUser(pojo);
