@@ -131,7 +131,7 @@
 					dataType : 'html',
 					success : function(res) {
 						if (res.trim() == "insert_success") {
-							$('#crudaction').val('insert_success');
+							$('#crudaction').val('redirect_insert');
 							$('#urlType').val('url_list');
 							$('#formUrl').submit();
 						}

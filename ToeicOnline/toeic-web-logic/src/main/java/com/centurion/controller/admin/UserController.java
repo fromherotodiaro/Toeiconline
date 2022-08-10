@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,6 +21,7 @@ import com.centurion.core.service.impl.RoleServiceImpl;
 import com.centurion.core.service.impl.UserServiceImpl;
 import com.centurion.core.web.common.WebConstant;
 import com.centurion.core.web.utils.FormUtil;
+import com.centurion.core.web.utils.WebCommonUtil;
 
 @WebServlet(urlPatterns = { "/admin-user-list.html", "/ajax-admin-user-edit.html" })
 public class UserController extends HttpServlet {
@@ -31,6 +33,7 @@ public class UserController extends HttpServlet {
 			throws ServletException, IOException {
 		UserCommand command = FormUtil.populate(UserCommand.class, request);
 		UserDTO pojo = command.getPojo();
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
 		if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_LIST)) {
 			Map<String, Object> mapProperty = new HashMap<String, Object>();
 			Object[] objects = userService.findByProperty(mapProperty, command.getSortExpression(),
@@ -38,9 +41,10 @@ public class UserController extends HttpServlet {
 			command.setListResult((List<UserDTO>) objects[1]);
 			command.setTotalItems(Integer.parseInt(objects[0].toString()));
 			request.setAttribute(WebConstant.LIST_ITEMS, command);
-			if (command.getCrudaction() != null && command.getCrudaction().equals("insert_success")) {
-				request.setAttribute(WebConstant.ALERT, WebConstant.TYPE_SUCCESS);
-				request.setAttribute(WebConstant.MESSAGE_RESPONSE, "insert success");
+			if (command.getCrudaction() != null && command.getCrudaction().equals(WebConstant.REDIRECT_INSERT)) {
+				Map<String, String> mapMessage = new HashMap<String, String>();
+				mapMessage.put(WebConstant.REDIRECT_INSERT, bundle.getString("label.user.message.add.success"));
+				WebCommonUtil.addRedirectMessage(request, command.getCrudaction(), mapMessage);
 			}
 			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/list.jsp");
 			rd.forward(request, response);
