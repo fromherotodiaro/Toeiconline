@@ -18,19 +18,16 @@ import org.apache.log4j.Logger;
 import com.centurion.command.UserCommand;
 import com.centurion.core.dto.RoleDTO;
 import com.centurion.core.dto.UserDTO;
-import com.centurion.core.service.RoleService;
-import com.centurion.core.service.UserService;
-import com.centurion.core.service.impl.RoleServiceImpl;
-import com.centurion.core.service.impl.UserServiceImpl;
 import com.centurion.core.web.common.WebConstant;
 import com.centurion.core.web.utils.FormUtil;
+import com.centurion.core.web.utils.SingletonServiceUtil;
 import com.centurion.core.web.utils.WebCommonUtil;
 
 @WebServlet(urlPatterns = { "/admin-user-list.html", "/ajax-admin-user-edit.html" })
 public class UserController extends HttpServlet {
 	private final Logger log = Logger.getLogger(this.getClass());
-	UserService userService = new UserServiceImpl();
-	RoleService roleService = new RoleServiceImpl();
+//	UserService userService = new UserServiceImpl();
+//	RoleService roleService = new RoleServiceImpl();
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,8 +37,9 @@ public class UserController extends HttpServlet {
 		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
 		if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_LIST)) {
 			Map<String, Object> mapProperty = new HashMap<String, Object>();
-			Object[] objects = userService.findByProperty(mapProperty, command.getSortExpression(),
-					command.getSortDirection(), command.getFirstItem(), command.getMaxPageItems());
+			Object[] objects = SingletonServiceUtil.getUserServiceInstance().findByProperty(mapProperty,
+					command.getSortExpression(), command.getSortDirection(), command.getFirstItem(),
+					command.getMaxPageItems());
 			command.setListResult((List<UserDTO>) objects[1]);
 			command.setTotalItems(Integer.parseInt(objects[0].toString()));
 			request.setAttribute(WebConstant.LIST_ITEMS, command);
@@ -53,9 +51,9 @@ public class UserController extends HttpServlet {
 			rd.forward(request, response);
 		} else if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_EDIT)) {
 			if (pojo != null && pojo.getUserId() != null) {
-				command.setPojo(userService.findById(pojo.getUserId()));
+				command.setPojo(SingletonServiceUtil.getUserServiceInstance().findById(pojo.getUserId()));
 			}
-			command.setRoles(roleService.findAll());
+			command.setRoles(SingletonServiceUtil.getRoleServiceInstance().findAll());
 			request.setAttribute(WebConstant.FORM_ITEM, command);
 			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/edit.jsp");
 			rd.forward(request, response);
@@ -84,11 +82,11 @@ public class UserController extends HttpServlet {
 					pojo.setRoleDTO(roleDTO);
 					if (pojo != null && pojo.getUserId() != null) {
 //						update
-						userService.updateUser(pojo);
+						SingletonServiceUtil.getUserServiceInstance().updateUser(pojo);
 						request.setAttribute(WebConstant.MESSAGE_RESPONSE, WebConstant.REDIRECT_UPDATE);
 					} else {
 //						 save
-						userService.saveUser(pojo);
+						SingletonServiceUtil.getUserServiceInstance().saveUser(pojo);
 						request.setAttribute(WebConstant.MESSAGE_RESPONSE, WebConstant.REDIRECT_INSERT);
 					}
 				}

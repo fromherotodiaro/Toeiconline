@@ -1,12 +1,10 @@
 package com.centurion.core.service.impl;
 
-import com.centurion.core.dao.ListenGuidelineDao;
-import com.centurion.core.daoimpl.ListenGuidelineDaoImpl;
 import com.centurion.core.service.ListenGuidelineService;
 
 public class ListenGuidelineServiceImpl implements ListenGuidelineService {
 
-	private ListenGuidelineDao listenGuidelineDao = new ListenGuidelineDaoImpl();
+//	private ListenGuidelineDao listenGuidelineDao = new ListenGuidelineDaoImpl();
 
 //	@Override
 //	public Object[] findListenGuidelineByProperties(String property, Object value, String sortExpression,

@@ -13,10 +13,9 @@ import org.apache.log4j.Logger;
 
 import com.centurion.command.UserCommand;
 import com.centurion.core.dto.UserDTO;
-import com.centurion.core.service.UserService;
-import com.centurion.core.service.impl.UserServiceImpl;
 import com.centurion.core.web.common.WebConstant;
 import com.centurion.core.web.utils.FormUtil;
+import com.centurion.core.web.utils.SingletonServiceUtil;
 
 @WebServlet("/login.html")
 public class LoginController extends HttpServlet {
@@ -35,22 +34,17 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		UserCommand command = FormUtil.populate(UserCommand.class, req);
 		UserDTO pojo = command.getPojo();
-		UserService userService = new UserServiceImpl();
+//		UserService userService = new UserServiceImpl();
 		try {
-			if (userService.isUserExist(pojo) != null) {
-				if (userService.findRoleByUser(pojo) != null && userService.findRoleByUser(pojo).getRoleDTO() != null) {
-					if (userService.findRoleByUser(pojo).getRoleDTO().getName().equals(WebConstant.ROLE_ADMIN)) {
-						/*
-						 * req.setAttribute(WebConstant.ALERT, WebConstant.TYPE_SUCCESS);
-						 * req.setAttribute(WebConstant.MESSAGE_RESPONSE, "Bạn là admin");
-						 */
-						/* resp.sendRedirect("/admin-home.html"); */
+			if (SingletonServiceUtil.getUserServiceInstance().isUserExist(pojo) != null) {
+				if (SingletonServiceUtil.getUserServiceInstance().findRoleByUser(pojo) != null
+						&& SingletonServiceUtil.getUserServiceInstance().findRoleByUser(pojo).getRoleDTO() != null) {
+					if (SingletonServiceUtil.getUserServiceInstance().findRoleByUser(pojo).getRoleDTO().getName()
+							.equals(WebConstant.ROLE_ADMIN)) {
 						resp.sendRedirect("admin-home.html");
-					} else if (userService.findRoleByUser(pojo).getRoleDTO().getName().equals(WebConstant.ROLE_USER)) {
-						/*
-						 * req.setAttribute(WebConstant.ALERT, WebConstant.TYPE_SUCCESS);
-						 * req.setAttribute(WebConstant.MESSAGE_RESPONSE, "Bạn là User");
-						 */
+					} else if (SingletonServiceUtil.getUserServiceInstance().findRoleByUser(pojo).getRoleDTO().getName()
+							.equals(WebConstant.ROLE_USER)) {
+
 						resp.sendRedirect("home.html");
 					}
 				}
