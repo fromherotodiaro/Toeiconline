@@ -10,6 +10,6 @@ public interface UserDao extends GerericDao<Integer, UserEntity> {
 	 * UserEntity findRoleByUser(String name, String password);
 	 */
 
-	UserEntity findUserByNameAndPassword(String name, String password);
-
+//	UserEntity findUserByNameAndPassword(String name, String password);
+	Object[] checkLogin(String name, String password);
 }
