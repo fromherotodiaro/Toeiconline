@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.log4j.Logger;
 
 import com.centurion.command.ListenGuideLineCommand;
@@ -71,22 +70,22 @@ public class ListenGuidelineController extends HttpServlet {
 		HttpSession session = req.getSession();
 		Set<String> valueTitle = buildSetValueListenGuideline();
 
-		try {
-			Object[] objects = uploadUtil.writeOrUpdateFile(req, valueTitle, WebConstant.LISTENGUIDELINE);
-			Map<String, String> mapValue = (Map<String, String>) objects[3];
-			command = returnValueListenGuidelineCommand(valueTitle, command, mapValue);
-
-			session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_SUCCESS);
-			session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.guideline.listen.add.success"));
-		} catch (FileUploadException e) {
-			log.error(e.getMessage(), e);
-			session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_ERROR);
-			session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.error"));
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_ERROR);
-			session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.error"));
-		}
+//		try {
+//			Object[] objects = uploadUtil.writeOrUpdateFile(req, valueTitle, WebConstant.LISTENGUIDELINE);
+//			Map<String, String> mapValue = (Map<String, String>) objects[3];
+//			command = returnValueListenGuidelineCommand(valueTitle, command, mapValue);
+//
+//			session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_SUCCESS);
+//			session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.guideline.listen.add.success"));
+//		} catch (FileUploadException e) {
+//			log.error(e.getMessage(), e);
+//			session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_ERROR);
+//			session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.error"));
+//		} catch (Exception e) {
+//			log.error(e.getMessage(), e);
+//			session.setAttribute(WebConstant.ALERT, WebConstant.TYPE_ERROR);
+//			session.setAttribute(WebConstant.MESSAGE_RESPONSE, bundle.getString("label.error"));
+//		}
 		resp.sendRedirect("admin-guideline-listen-list.html?urlType=url_list");
 	}
 

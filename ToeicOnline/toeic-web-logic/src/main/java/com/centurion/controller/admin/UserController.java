@@ -1,10 +1,14 @@
 package com.centurion.controller.admin;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,8 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.centurion.command.UserCommand;
+import com.centurion.core.commons.utils.UploadUtil;
 import com.centurion.core.dto.RoleDTO;
 import com.centurion.core.dto.UserDTO;
 import com.centurion.core.web.common.WebConstant;
@@ -23,11 +32,12 @@ import com.centurion.core.web.utils.FormUtil;
 import com.centurion.core.web.utils.SingletonServiceUtil;
 import com.centurion.core.web.utils.WebCommonUtil;
 
-@WebServlet(urlPatterns = { "/admin-user-list.html", "/ajax-admin-user-edit.html" })
+@WebServlet(urlPatterns = { "/admin-user-list.html", "/ajax-admin-user-edit.html", "/admin-user-import-list.html",
+		"/admin-user-import.html" })
 public class UserController extends HttpServlet {
 	private final Logger log = Logger.getLogger(this.getClass());
-//	UserService userService = new UserServiceImpl();
-//	RoleService roleService = new RoleServiceImpl();
+	private final String SHOW_IMPORT_USER = "show_import_user";
+	private final String READ_EXCEL = "read_excel";
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -57,6 +67,10 @@ public class UserController extends HttpServlet {
 			request.setAttribute(WebConstant.FORM_ITEM, command);
 			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/edit.jsp");
 			rd.forward(request, response);
+		} else if (command.getUrlType() != null && command.getUrlType().equals(SHOW_IMPORT_USER)) {
+
+			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/importuser.jsp");
+			rd.forward(request, response);
 		}
 	}
 
@@ -72,10 +86,14 @@ public class UserController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		UploadUtil uploadUtil = new UploadUtil();
+		Set<String> value = new HashSet<String>();
+		value.add("urlType");
+		Object[] objects = uploadUtil.writeOrUpdateFile(request, value, "excel");
 		try {
 			UserCommand command = FormUtil.populate(UserCommand.class, request);
 			UserDTO pojo = command.getPojo();
-			if (command.getUrlType().equals(WebConstant.URL_EDIT)) {
+			if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_EDIT)) {
 				if (command.getCrudaction() != null && command.getCrudaction().equals(WebConstant.INSERT_UPDATE)) {
 					RoleDTO roleDTO = new RoleDTO();
 					roleDTO.setRoleId(command.getRoleId());
@@ -90,6 +108,27 @@ public class UserController extends HttpServlet {
 						request.setAttribute(WebConstant.MESSAGE_RESPONSE, WebConstant.REDIRECT_INSERT);
 					}
 				}
+			}
+			if (objects != null) {
+				String urlType = null;
+				Map<String, String> mapvalue = (Map<String, String>) objects[3];
+				for (Map.Entry<String, String> item : mapvalue.entrySet()) {
+					if (item.getKey().equals("urlType")) {
+						urlType = item.getValue();
+					}
+
+				}
+				if (urlType != null && urlType.equals(READ_EXCEL)) {
+					String filelocation = objects[1].toString();
+					FileInputStream excelFile = new FileInputStream(new File(filelocation));
+					Workbook workbook = new XSSFWorkbook(excelFile);
+					Sheet sheet = workbook.getSheetAt(0);
+					for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+						Row row = sheet.getRow(i);
+						System.out.println(row.getCell(0) + "_" + row.getCell(1));
+					}
+				}
+
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

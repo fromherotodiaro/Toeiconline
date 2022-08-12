@@ -6,11 +6,6 @@ import com.centurion.core.persistence.entity.ListenGuidelineEntity;
 public class ListenGuidelineBeanUtil {
 
 	public static ListenGuidelineDTO entity2Dto(ListenGuidelineEntity entity) {
-//		private String tittle;
-//		private String image;
-//		private String content;
-//		private Timestamp createdDate;
-//		private Timestamp modifiedDate;
 
 		ListenGuidelineDTO dto = new ListenGuidelineDTO();
 		dto.setListenGuideLineId(entity.getListenGuideLineid());
