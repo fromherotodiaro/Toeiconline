@@ -1,8 +1,7 @@
 package com.centurion.controller.admin;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,23 +20,25 @@ import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.centurion.command.UserCommand;
+import com.centurion.core.commons.utils.ExcelPoiUtil;
 import com.centurion.core.commons.utils.UploadUtil;
 import com.centurion.core.dto.RoleDTO;
 import com.centurion.core.dto.UserDTO;
+import com.centurion.core.dto.UserImportDTO;
 import com.centurion.core.web.common.WebConstant;
 import com.centurion.core.web.utils.FormUtil;
 import com.centurion.core.web.utils.SingletonServiceUtil;
 import com.centurion.core.web.utils.WebCommonUtil;
 
-@WebServlet(urlPatterns = { "/admin-user-list.html", "/ajax-admin-user-edit.html", "/admin-user-import-list.html",
-		"/admin-user-import.html" })
+@WebServlet(urlPatterns = { "/admin-user-list.html", "/ajax-admin-user-edit.html", "/admin-user-import.html",
+		"/admin-user-import-validate.html" })
 public class UserController extends HttpServlet {
 	private final Logger log = Logger.getLogger(this.getClass());
 	private final String SHOW_IMPORT_USER = "show_import_user";
 	private final String READ_EXCEL = "read_excel";
+	private final String SHOW_LIST_ERROR = "show_list_error";
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -68,6 +69,10 @@ public class UserController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/edit.jsp");
 			rd.forward(request, response);
 		} else if (command.getUrlType() != null && command.getUrlType().equals(SHOW_IMPORT_USER)) {
+
+			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/importuser.jsp");
+			rd.forward(request, response);
+		} else if (command.getUrlType() != null && command.getUrlType().equals(SHOW_LIST_ERROR)) {
 
 			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/importuser.jsp");
 			rd.forward(request, response);
@@ -120,15 +125,10 @@ public class UserController extends HttpServlet {
 				}
 				if (urlType != null && urlType.equals(READ_EXCEL)) {
 					String filelocation = objects[1].toString();
-					FileInputStream excelFile = new FileInputStream(new File(filelocation));
-					Workbook workbook = new XSSFWorkbook(excelFile);
-					Sheet sheet = workbook.getSheetAt(0);
-					for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-						Row row = sheet.getRow(i);
-						System.out.println(row.getCell(0) + "_" + row.getCell(1));
-					}
+					String fileName = objects[2].toString();
+//					
+					List<UserImportDTO> excelValue = returnValueFormExcel(fileName, filelocation);
 				}
-
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -137,6 +137,27 @@ public class UserController extends HttpServlet {
 
 		RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/edit.jsp");
 		rd.forward(request, response);
+	}
 
+	public List<UserImportDTO> returnValueFormExcel(String fileName, String filelocation) throws IOException {
+		Workbook workbook = ExcelPoiUtil.getWorkBook(fileName, filelocation);
+		Sheet sheet = workbook.getSheetAt(0);
+		List<UserImportDTO> excelValue = new ArrayList<UserImportDTO>();
+		for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+			Row row = sheet.getRow(i);
+			UserImportDTO userImportDTO = readDataFormExcel(row);
+			excelValue.add(userImportDTO);
+		}
+		return excelValue;
+	}
+
+	private UserImportDTO readDataFormExcel(Row row) {
+		UserImportDTO userImportDTO = new UserImportDTO();
+		userImportDTO.setUserName(ExcelPoiUtil.getCellValue(row.getCell(0)));
+		userImportDTO.setPassword(ExcelPoiUtil.getCellValue(row.getCell(1)));
+		userImportDTO.setFullName(ExcelPoiUtil.getCellValue(row.getCell(2)));
+		userImportDTO.setRoleName(ExcelPoiUtil.getCellValue(row.getCell(3)));
+
+		return userImportDTO;
 	}
 }

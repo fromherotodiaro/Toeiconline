@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.centurion.core.dto.RoleDTO;
 import com.centurion.core.dto.UserDTO;
+import com.centurion.core.dto.UserImportDTO;
 import com.centurion.core.web.command.AbstractCommand;
 
 public class UserCommand extends AbstractCommand<UserDTO> {
@@ -14,6 +15,7 @@ public class UserCommand extends AbstractCommand<UserDTO> {
 	private String confirmPassword;
 	private List<RoleDTO> roles;
 	private Integer roleId;
+	private UserImportDTO userImportDTO;
 
 	public List<RoleDTO> getRoles() {
 		return roles;
@@ -37,6 +39,14 @@ public class UserCommand extends AbstractCommand<UserDTO> {
 
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
+	}
+
+	public UserImportDTO getUserImportDTO() {
+		return userImportDTO;
+	}
+
+	public void setUserImportDTO(UserImportDTO userImportDTO) {
+		this.userImportDTO = userImportDTO;
 	}
 
 }

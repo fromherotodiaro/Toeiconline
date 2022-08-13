@@ -24,7 +24,7 @@ public class UploadUtil {
 	public Object[] writeOrUpdateFile(HttpServletRequest request, Set<String> titleValue, String path) {
 		ServletContext context = request.getServletContext();
 //		String address = context.getRealPath("image");
-		String address = context.getRealPath("/fileupload");
+		String address = context.getRealPath("fileupload");
 		boolean check = true;
 		String fileLocation = null;
 		String namefile = null;
