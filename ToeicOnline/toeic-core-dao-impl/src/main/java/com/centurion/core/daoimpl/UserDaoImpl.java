@@ -1,5 +1,8 @@
 package com.centurion.core.daoimpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -38,5 +41,24 @@ public class UserDaoImpl extends AbstractDao<Integer, UserEntity> implements Use
 			session.close();
 		}
 		return new Object[] { isUserExist, roleName };
+	}
+
+	@Override
+	public List<UserEntity> findByUsers(List<String> names) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+		List<UserEntity> userEntities = new ArrayList<UserEntity>();
+		try {
+			StringBuilder sql = new StringBuilder("FROM UserEntity ue where ue.name IN (:names) ");
+			Query query = session.createQuery(sql.toString());
+			query.setParameterList("names", names);// truyen list
+			userEntities = query.list();
+		} catch (HibernateException e) {
+			transaction.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
+		return userEntities;
 	}
 }

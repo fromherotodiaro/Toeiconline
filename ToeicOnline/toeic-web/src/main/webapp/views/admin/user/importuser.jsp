@@ -60,7 +60,7 @@
 													<display:column headerClass="text-left" property="password" titleKey="label.password" />
 													<display:column headerClass="text-left" property="fullName" titleKey="label.fullname" />
 													<display:column headerClass="text-left" property="roleName" titleKey="label.role.name" />
-													<%-- 	<display:column headerClass="text-left" property="error" titleKey="label.import.error" /> --%>
+													<display:column headerClass="text-left" property="error" titleKey="label.import.error" />
 												</display:table>
 											</fmt:bundle>
 										</div>

@@ -2,11 +2,16 @@ package com.centurion.core.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.centurion.core.dto.CheckLogin;
 import com.centurion.core.dto.UserDTO;
+import com.centurion.core.dto.UserImportDTO;
+import com.centurion.core.persistence.entity.RoleEntity;
 import com.centurion.core.persistence.entity.UserEntity;
 import com.centurion.core.service.UserService;
 import com.centurion.core.service.utils.SingletonDaoUtil;
@@ -64,6 +69,52 @@ public class UserServiceImpl implements UserService {
 			}
 		}
 		return checkLogin;
+	}
+
+	@Override
+	public void validateImportUser(List<UserImportDTO> userImportDTOs) {
+		List<String> names = new ArrayList<String>();
+		List<String> roles = new ArrayList<String>();
+		for (UserImportDTO item : userImportDTOs) {
+			names.add(item.getUserName());
+			if (!roles.contains(item.getRoleName())) {
+				roles.add(item.getRoleName());
+			}
+		}
+		Map<String, UserEntity> userEntityMap = new HashMap<String, UserEntity>();
+		Map<String, RoleEntity> roleEntityMap = new HashMap<String, RoleEntity>();
+		if (names.size() > 0) {
+			List<UserEntity> userEntities = SingletonDaoUtil.getUserDaoInstance().findByUsers(names);
+			for (UserEntity item : userEntities) {
+				userEntityMap.put(item.getName().toUpperCase(), item);
+			}
+		}
+		if (roles.size() > 0) {
+			List<RoleEntity> roleEntities = SingletonDaoUtil.getRoleDaoInstance().findByRole(roles);
+			for (RoleEntity item : roleEntities) {
+				roleEntityMap.put(item.getName().toUpperCase(), item);
+			}
+		}
+		for (UserImportDTO item : userImportDTOs) {
+			String message = item.getError();
+			if (item.isValid()) {
+				UserEntity userEntity = userEntityMap.get(item.getUserName().toUpperCase());
+				if (userEntity != null) {
+					message += "<br/>";
+					message += "Tên đăng nhập tồn tại";
+				}
+				RoleEntity roleEntity = roleEntityMap.get(item.getRoleName().toUpperCase());
+				if (roleEntity == null) {
+					message += "<br/>";
+					message += "Vai trò không tồn tại";
+				}
+				if (StringUtils.isNotBlank(message)) {
+					item.setValid(false);
+					item.setError(message.substring(5));
+				}
+
+			}
+		}
 	}
 
 }

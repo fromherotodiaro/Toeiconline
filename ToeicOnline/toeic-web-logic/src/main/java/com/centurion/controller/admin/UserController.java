@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -41,13 +42,14 @@ public class UserController extends HttpServlet {
 	private final String READ_EXCEL = "read_excel";
 	private final String VALIDATE_IMPORT = "validate_import";
 	private final String LIST_USER_IMPORT = "list_user_import";
+	ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		UserCommand command = FormUtil.populate(UserCommand.class, request);
 		UserDTO pojo = command.getPojo();
-		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
+
 		if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_LIST)) {
 			Map<String, Object> mapProperty = new HashMap<String, Object>();
 			Object[] objects = SingletonServiceUtil.getUserServiceInstance().findByProperty(mapProperty,
@@ -136,8 +138,8 @@ public class UserController extends HttpServlet {
 				if (urlType != null && urlType.equals(READ_EXCEL)) {
 					String filelocation = objects[1].toString();
 					String fileName = objects[2].toString();
-//					
 					List<UserImportDTO> excelValue = returnValueFormExcel(fileName, filelocation);
+					validateData(excelValue);
 					SessionUtil.getInstance().putValue(request, LIST_USER_IMPORT, excelValue);
 					response.sendRedirect("admin-user-import-validate.html?urlType=validate_import");
 				}
@@ -147,6 +149,53 @@ public class UserController extends HttpServlet {
 			request.setAttribute(WebConstant.MESSAGE_RESPONSE, WebConstant.REDIRECT_ERROR);
 		}
 
+	}
+
+	private void validateData(List<UserImportDTO> excelValue) {
+		Set<String> stringSet = new HashSet<String>();
+		for (UserImportDTO item : excelValue) {
+			validateRequireField(item);
+			validateDuplicate(item, stringSet);
+		}
+		SingletonServiceUtil.getUserServiceInstance().validateImportUser(excelValue);
+
+	}
+
+	private void validateDuplicate(UserImportDTO item, Set<String> stringSet) {
+		String message = item.getError();
+
+		if (!stringSet.contains(item.getUserName())) {
+			stringSet.add(item.getUserName());
+		} else {
+			if (item.isValid()) {
+				message += "<br/>";
+				message += bundle.getString("label.username.duplicate");
+			}
+		}
+		if (StringUtils.isNotBlank(message)) {
+			item.setValid(false);
+			item.setError(message);
+		}
+	}
+
+	private void validateRequireField(UserImportDTO item) {
+		String message = "";
+		if (StringUtils.isBlank(item.getUserName())) {
+			message += "<br/>";
+			message += bundle.getString("label.username.notempty");
+		}
+		if (StringUtils.isBlank(item.getPassword())) {
+			message += "<br/>";
+			message += bundle.getString("label.password.notempty");
+		}
+		if (StringUtils.isBlank(item.getRoleName())) {
+			message += "<br/>";
+			message += bundle.getString("label.rolename.notempty");
+		}
+		if (StringUtils.isNotBlank(message)) {
+			item.setValid(false);
+		}
+		item.setError(message);
 	}
 
 	public List<UserImportDTO> returnValueFormExcel(String fileName, String filelocation) throws IOException {
