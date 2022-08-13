@@ -15,7 +15,8 @@ public class UserCommand extends AbstractCommand<UserDTO> {
 	private String confirmPassword;
 	private List<RoleDTO> roles;
 	private Integer roleId;
-	private UserImportDTO userImportDTO;
+	// private UserImportDTO userImportDTO;
+	private List<UserImportDTO> userImportDTOS;
 
 	public List<RoleDTO> getRoles() {
 		return roles;
@@ -41,12 +42,20 @@ public class UserCommand extends AbstractCommand<UserDTO> {
 		this.roleId = roleId;
 	}
 
-	public UserImportDTO getUserImportDTO() {
-		return userImportDTO;
+	public List<UserImportDTO> getUserImportDTOS() {
+		return userImportDTOS;
 	}
 
-	public void setUserImportDTO(UserImportDTO userImportDTO) {
-		this.userImportDTO = userImportDTO;
+	public void setUserImportDTOS(List<UserImportDTO> userImportDTOS) {
+		this.userImportDTOS = userImportDTOS;
 	}
+
+//	public UserImportDTO getUserImportDTO() {
+//		return userImportDTO;
+//	}
+//
+//	public void setUserImportDTO(UserImportDTO userImportDTO) {
+//		this.userImportDTO = userImportDTO;
+//	}
 
 }
