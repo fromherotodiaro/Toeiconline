@@ -51,6 +51,7 @@ public class ListenGuidelineController extends HttpServlet {
 			RequestDispatcher rd = req.getRequestDispatcher("/views/admin/listenguideline/list.jsp");
 			rd.forward(req, resp);
 		} else if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_EDIT)) {
+			req.setAttribute(WebConstant.FORM_ITEM, command);
 			RequestDispatcher rd = req.getRequestDispatcher("/views/admin/listenguideline/edit.jsp");
 			rd.forward(req, resp);
 		}

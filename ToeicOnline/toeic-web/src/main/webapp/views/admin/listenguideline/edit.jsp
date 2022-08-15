@@ -33,7 +33,7 @@
 								${messageResponse}
 							</div>
 						</c:if>
-						<%-- <form action="${formUrl}" method="post" enctype="multipart/form-data">
+						<form action="${formUrl}" method="post" enctype="multipart/form-data">
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.guideline.title"
 										bundle="${lang}" /></label>
@@ -53,8 +53,13 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.guideline.content"
 										bundle="${lang}" /></label>
-								<div class="col-sm-9">
-									<input type="text" name="pojo.content" />
+							</div>
+							<div class="form-group">
+								<div class="col-sm-12">
+									<c:if test="${not empty item.pojo.content}">
+										<c:set var="content" value="${item.pojo.content}" />
+									</c:if>
+									<textarea name="pojo.content" rows="10" cols="80" id="listtenGuidelineContent"${content}></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -63,11 +68,16 @@
 										value="<fmt:message key="label.done" bundle="${lang}"/>" />
 								</div>
 							</div>
-						</form> --%>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		$(document).ready(function() {
+			CKEDITOR.replace('listtenGuidelineContent');
+		});
+	</script>
 </body>
 </html>

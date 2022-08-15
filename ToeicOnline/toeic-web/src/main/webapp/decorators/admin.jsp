@@ -17,8 +17,8 @@
 <script src="<c:url value='/template/admin/assets/js/jquery.2.1.1.min.js' />"></script>
 <link rel="stylesheet" href="<c:url value="/template/admin/css/global_admin_style.css"/>">
 <script type="text/javascript" src="<c:url value="/template/admin/js/global_admin_script.js"/>"></script>
-
-
+<!--ckeditor plugin -->
+<script type="text/javascript" src="<c:url value="/ckeditor/ckeditor.js"/>"></script>
 
 
 <%--sweetalert--%>
