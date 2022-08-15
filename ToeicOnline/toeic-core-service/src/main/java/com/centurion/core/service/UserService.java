@@ -24,4 +24,6 @@ public interface UserService {
 	CheckLogin checkLogin(String name, String password);
 
 	void validateImportUser(List<UserImportDTO> userImportDTOs);
+
+	void saveUserImport(List<UserImportDTO> userImportDTOs);
 }

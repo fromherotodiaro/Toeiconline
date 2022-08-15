@@ -21,4 +21,6 @@ public interface GerericDao<ID extends Serializable, T> {
 
 	Integer delete(List<ID> ids);
 
+	T findEqualUnique(String property, Object value);
+
 }

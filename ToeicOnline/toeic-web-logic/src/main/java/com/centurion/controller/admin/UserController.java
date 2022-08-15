@@ -42,6 +42,7 @@ public class UserController extends HttpServlet {
 	private final String READ_EXCEL = "read_excel";
 	private final String VALIDATE_IMPORT = "validate_import";
 	private final String LIST_USER_IMPORT = "list_user_import";
+	private final String IMPORT_DATA = "import_data";
 	ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
 
 	@Override
@@ -133,7 +134,6 @@ public class UserController extends HttpServlet {
 					if (item.getKey().equals("urlType")) {
 						urlType = item.getValue();
 					}
-
 				}
 				if (urlType != null && urlType.equals(READ_EXCEL)) {
 					String filelocation = objects[1].toString();
@@ -144,11 +144,17 @@ public class UserController extends HttpServlet {
 					response.sendRedirect("admin-user-import-validate.html?urlType=validate_import");
 				}
 			}
+			if (command.getUrlType() != null && command.getUrlType().equals(IMPORT_DATA)) {
+				List<UserImportDTO> userImportDTOs = (List<UserImportDTO>) SessionUtil.getInstance().getValue(request,
+						LIST_USER_IMPORT);
+				SingletonServiceUtil.getUserServiceInstance().saveUserImport(userImportDTOs);
+				SessionUtil.getInstance().romove(request, LIST_USER_IMPORT);
+				response.sendRedirect("admin-user-list.html?urlType=url_list");
+			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			request.setAttribute(WebConstant.MESSAGE_RESPONSE, WebConstant.REDIRECT_ERROR);
 		}
-
 	}
 
 	private void validateData(List<UserImportDTO> excelValue) {
