@@ -4,6 +4,11 @@
 <html>
 <head>
 <title><fmt:message key="label.guideline.listen.edit" bundle="${lang}" /></title>
+<style type="text/css">
+.error {
+	color: red;
+}
+</style>
 </head>
 <body>
 	<div class="main-content">
@@ -33,12 +38,12 @@
 								${messageResponse}
 							</div>
 						</c:if>
-						<form action="${formUrl}" method="post" enctype="multipart/form-data">
+						<form action="${formUrl}" method="post" enctype="multipart/form-data" id="formEdit">
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.guideline.title"
 										bundle="${lang}" /></label>
 								<div class="col-sm-9">
-									<input type="text" name="pojo.title" />
+									<input type="text" name="pojo.title" id="title" />
 								</div>
 							</div>
 							<br /> <br />
@@ -46,7 +51,7 @@
 								<label class="col-sm-3 control-label no-padding-right"><fmt:message
 										key="label.grammarguideline.upload.image" bundle="${lang}" /></label>
 								<div class="col-sm-9">
-									<input type="file" name="file" />
+									<input type="file" name="file" id="uploadImage" />
 								</div>
 							</div>
 							<br /> <br />
@@ -59,7 +64,7 @@
 									<c:if test="${not empty item.pojo.content}">
 										<c:set var="content" value="${item.pojo.content}" />
 									</c:if>
-									<textarea name="pojo.content" rows="10" cols="80" id="listtenGuidelineContent"${content}></textarea>
+									<textarea name="pojo.content" rows="10" cols="80" id="listtenGuidelineContent" ${content}></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -77,7 +82,48 @@
 	<script>
 		$(document).ready(function() {
 			CKEDITOR.replace('listtenGuidelineContent');
+			validateData();
 		});
+		function validateData() {
+			$('#formEdit').validate({
+				ignore : [],
+				rules : [],
+				messages : []
+			});
+			$("#title")
+					.rules(
+							"add",
+							{
+								required : true,
+								messages : {
+									required : '<fmt:message key="label.empty"
+        bundle="${lang}" />'
+								}
+							});
+			$("#uploadImage")
+					.rules(
+							"add",
+							{
+								required : true,
+								messages : {
+									required : '<fmt:message key="label.empty"
+bundle="${lang}" />'
+								}
+							});
+			$("#listtenGuidelineContent")
+					.rules(
+							"add",
+							{
+								required : function() {
+									CKEDITOR.instances.listtenGuidelineContent
+											.updateElement();
+								},
+								messages : {
+									required : '<fmt:message key="label.empty"
+bundle="${lang}" />'
+								}
+							});
+		}
 	</script>
 </body>
 </html>
