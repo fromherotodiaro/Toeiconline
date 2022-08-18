@@ -43,7 +43,7 @@
 								<label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.guideline.title"
 										bundle="${lang}" /></label>
 								<div class="col-sm-9">
-									<input type="text" name="pojo.title" id="title" />
+									<input type="text" name="pojo.title" id="title" value="${item.pojo.title}" />
 								</div>
 							</div>
 							<br /> <br />
@@ -56,6 +56,14 @@
 							</div>
 							<br /> <br />
 							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right"><fmt:message
+										key="label.grammarguideline.upload.image.view" bundle="${lang}" /></label>
+								<div class="col-sm-9">
+									<img alt="" src="" id="viewImage" width="150px" height="150px">
+								</div>
+							</div>
+							<br /> <br />
+							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right"><fmt:message key="label.guideline.content"
 										bundle="${lang}" /></label>
 							</div>
@@ -64,7 +72,7 @@
 									<c:if test="${not empty item.pojo.content}">
 										<c:set var="content" value="${item.pojo.content}" />
 									</c:if>
-									<textarea name="pojo.content" rows="10" cols="80" id="listtenGuidelineContent" ${content}></textarea>
+									<textarea name="pojo.content" cols="80" rows="10" id="listenGuidelineContent">${content}</textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -81,7 +89,7 @@
 	</div>
 	<script>
 		$(document).ready(function() {
-			CKEDITOR.replace('listtenGuidelineContent');
+			CKEDITOR.replace('listenGuidelineContent');
 			validateData();
 		});
 		function validateData() {

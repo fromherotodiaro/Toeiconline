@@ -18,7 +18,7 @@ public class ListenGuidelineEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer listenGuideLineId;
+	private Integer listenGuidelineId;
 
 	private String title;
 	private String image;
@@ -28,17 +28,17 @@ public class ListenGuidelineEntity {
 	@Column(name = "modifieddate")
 	private Timestamp modifiedDate;
 
-	@OneToMany(mappedBy = "listenGuideLine", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "listenGuideline", fetch = FetchType.LAZY)
 	private List<CommentEntity> commentList;
 
 	public ListenGuidelineEntity() {
 
 	}
 
-	public ListenGuidelineEntity(Integer listenGuideLineid, String tittle, String image, String content,
+	public ListenGuidelineEntity(Integer listenGuidelineid, String tittle, String image, String content,
 			Timestamp createdDate, Timestamp modifiedDate) {
 
-		this.listenGuideLineId = listenGuideLineid;
+		this.listenGuidelineId = listenGuidelineid;
 		this.title = tittle;
 		this.image = image;
 		this.content = content;
@@ -46,12 +46,12 @@ public class ListenGuidelineEntity {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Integer getListenGuideLineid() {
-		return listenGuideLineId;
+	public Integer getListenGuidelineid() {
+		return listenGuidelineId;
 	}
 
-	public void setListenGuideLineid(Integer listenGuideLineid) {
-		this.listenGuideLineId = listenGuideLineid;
+	public void setListenGuidelineid(Integer listenGuideLineid) {
+		this.listenGuidelineId = listenGuideLineid;
 	}
 
 	public String getTitle() {

@@ -18,13 +18,20 @@ public class ListenGuidelineServiceImpl implements ListenGuidelineService {
 		List<ListenGuidelineDTO> result = new ArrayList<ListenGuidelineDTO>();
 		Object[] objects = SingletonDaoUtil.getListenGuidelineDaoInstance().findByProperty(property, sortExpression,
 				sortDirection, offset, limit);
-		for (ListenGuidelineEntity item : (List<ListenGuidelineEntity>) objects[1]) {// objects[1] Object[] { totalItem,
-																						// list };
+		for (ListenGuidelineEntity item : (List<ListenGuidelineEntity>) objects[1]) {
 			ListenGuidelineDTO dto = ListenGuidelineBeanUtil.entity2Dto(item);
 			result.add(dto);
 		}
 		objects[1] = result;
 		return objects;
+	}
+
+	@Override
+	public ListenGuidelineDTO findByListenGuidelineId(String property, Integer listenGuideLineId) {
+		ListenGuidelineEntity entity = SingletonDaoUtil.getListenGuidelineDaoInstance().findEqualUnique(property,
+				listenGuideLineId);
+		ListenGuidelineDTO dto = ListenGuidelineBeanUtil.entity2Dto(entity);
+		return dto;
 	}
 
 }

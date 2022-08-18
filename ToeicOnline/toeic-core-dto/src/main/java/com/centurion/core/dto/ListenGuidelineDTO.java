@@ -5,19 +5,19 @@ import java.sql.Timestamp;
 
 public class ListenGuidelineDTO implements Serializable {
 
-	private Integer listenGuideLineId;
+	private Integer listenGuidelineId;
 	private String title;
 	private String image;
 	private String content;
 	private Timestamp createdDate;
 	private Timestamp modifiedDate;
 
-	public Integer getListenGuideLineId() {
-		return listenGuideLineId;
+	public Integer getListenGuidelineId() {
+		return listenGuidelineId;
 	}
 
-	public void setListenGuideLineId(Integer listenGuideLineId) {
-		this.listenGuideLineId = listenGuideLineId;
+	public void setListenGuidelineId(Integer listenGuidelineId) {
+		this.listenGuidelineId = listenGuidelineId;
 	}
 
 	public String getTitle() {

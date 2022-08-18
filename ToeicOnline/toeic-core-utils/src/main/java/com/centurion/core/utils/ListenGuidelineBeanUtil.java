@@ -8,7 +8,7 @@ public class ListenGuidelineBeanUtil {
 	public static ListenGuidelineDTO entity2Dto(ListenGuidelineEntity entity) {
 
 		ListenGuidelineDTO dto = new ListenGuidelineDTO();
-		dto.setListenGuideLineId(entity.getListenGuideLineid());
+		dto.setListenGuidelineId(entity.getListenGuidelineid());
 		dto.setTitle(entity.getTitle());
 		dto.setImage(entity.getImage());
 		dto.setContent(entity.getContent());
@@ -19,7 +19,7 @@ public class ListenGuidelineBeanUtil {
 
 	public static ListenGuidelineEntity dto2Entity(ListenGuidelineDTO dto) {
 		ListenGuidelineEntity entity = new ListenGuidelineEntity();
-		entity.setListenGuideLineid(dto.getListenGuideLineId());
+		entity.setListenGuidelineid(dto.getListenGuidelineId());
 		entity.setImage(dto.getImage());
 		entity.setContent(dto.getContent());
 		entity.setCreatedDate(dto.getCreatedDate());

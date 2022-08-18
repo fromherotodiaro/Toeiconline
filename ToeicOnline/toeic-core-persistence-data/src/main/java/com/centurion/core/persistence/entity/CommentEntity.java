@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,7 +19,7 @@ public class CommentEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer commentId;
-	
+
 	@Column(name = "content")
 	private String content;
 
@@ -30,7 +29,7 @@ public class CommentEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "listenguidelineid")
-	private ListenGuidelineEntity listenGuideLine;
+	private ListenGuidelineEntity listenGuideline;
 
 	@Column(name = "createddate")
 	private Timestamp createdDate;
@@ -64,11 +63,11 @@ public class CommentEntity {
 	}
 
 	public ListenGuidelineEntity getListenGuideLine() {
-		return listenGuideLine;
+		return listenGuideline;
 	}
 
 	public void setListenGuideLine(ListenGuidelineEntity listenGuideLine) {
-		this.listenGuideLine = listenGuideLine;
+		this.listenGuideline = listenGuideLine;
 	}
 
 	public Timestamp getCreatedDate() {

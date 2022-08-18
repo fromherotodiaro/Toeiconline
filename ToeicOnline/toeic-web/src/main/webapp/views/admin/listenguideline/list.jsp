@@ -85,8 +85,8 @@
 												<c:url var="addUrl" value="/admin-guideline-listen-edit.html">
 													<c:param name="urlType" value="url_edit"></c:param>
 												</c:url>
-												<a flag="info" class="dt-button buttons-colvis btn btn-white btn-primary btn-bold" href="${addUrl}">
-													<span> <i class="fa fa-plus-circle bigger-110 purple"></i>
+												<a flag="info" class="dt-button buttons-colvis btn btn-white btn-primary btn-bold" href="${addUrl}"> <span>
+														<i class="fa fa-plus-circle bigger-110 purple"></i>
 												</span>
 												</a>
 												<button type="button" class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" id="deleteAll"
@@ -112,18 +112,18 @@
 												        </fieldset>"
 											class="center select-cell" headerClass="center select-cell">
 											<fieldset>
-												<input type="checkbox" name="checkList" id="checkbox" value="" class="check-box-element" />
+												<input type="checkbox" name="checkList" id="checkbox_${tableList.listenGuidelineId}" value="${tableList.listenGuidelineId}" class="check-box-element" />
 											</fieldset>
 										</display:column>
 										<display:column property="title" titleKey="label.guideline.listen.title" sortable="true" sortName="title" />
 										<display:column property="content" titleKey="label.guideline.listen.content" sortable="true"
 											sortName="content" />
-										<display:column headerClass="col-actions" titleKey="label.action">
-											<%--<c:url var="editUrl" value="/ajax-admin-user-edit.html">
-                                        <c:param name="urlType" value="url_edit"/>
-                                        <c:param name="pojo.userId" value="${tableList.userId}"/>
-                                    </c:url>--%>
-											<a class="btn btn-sm btn-primary btn-edit" sc-url="${editUrl}" onclick="update(this)" data-toggle="tooltip"
+										<display:column headerClass="col-actions" titleKey="label.action">							
+											<c:url var="editUrl" value="/admin-guideline-listen-edit.html">
+                                                    <c:param name="urlType" value="url_edit"></c:param>
+                                                    <c:param name="pojo.listenGuidelineId" value="${tableList.listenGuidelineId}"></c:param>
+                                                </c:url>
+											<a class="btn btn-sm btn-primary btn-edit" href="${editUrl}" data-toggle="tooltip"
 												title="<fmt:message key='label.listenguideline.update' bundle='${lang}'/>"><i
 												class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
 											<a class="btn btn-sm btn-danger btn-cancel" data-toggle="tooltip"
@@ -142,7 +142,7 @@
 	</div>
 	<script>
 		$(document).ready(function() {
-			$('#btnSearch').click(function () {
+			$('#btnSearch').click(function() {
 				$('#urlType').val('url_list');
 				$('#formUrl').submit();
 			})

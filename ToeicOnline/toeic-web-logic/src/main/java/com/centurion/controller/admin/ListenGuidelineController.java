@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.centurion.command.ListenGuideLineCommand;
+import com.centurion.command.ListenGuidelineCommand;
 import com.centurion.core.commons.utils.UploadUtil;
 import com.centurion.core.dto.ListenGuidelineDTO;
 import com.centurion.core.web.common.WebConstant;
@@ -34,10 +34,11 @@ public class ListenGuidelineController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		ListenGuideLineCommand command = FormUtil.populate(ListenGuideLineCommand.class, req);
+		ListenGuidelineCommand command = FormUtil.populate(ListenGuidelineCommand.class, req);
+		ListenGuidelineDTO pojo = command.getPojo();
 		ResourceBundle resourceBundle = ResourceBundle.getBundle("ApplicationResources");
 //		HttpSession session = req.getSession();
-//
+
 //		req.setAttribute(WebConstant.ALERT, WebConstant.TYPE_SUCCESS);
 //		req.setAttribute(WebConstant.MESSAGE_RESPONSE, resourceBundle.getString("label.guideline.listen.add.success"));
 //		if (session != null) {
@@ -51,6 +52,10 @@ public class ListenGuidelineController extends HttpServlet {
 			RequestDispatcher rd = req.getRequestDispatcher("/views/admin/listenguideline/list.jsp");
 			rd.forward(req, resp);
 		} else if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_EDIT)) {
+			if (command.getPojo() != null && command.getPojo().getListenGuidelineId() != null) {
+				command.setPojo(SingletonServiceUtil.getListenGuidelineServiceInstance()
+						.findByListenGuidelineId("listenGuidelineId", command.getPojo().getListenGuidelineId()));
+			}
 			req.setAttribute(WebConstant.FORM_ITEM, command);
 			RequestDispatcher rd = req.getRequestDispatcher("/views/admin/listenguideline/edit.jsp");
 			rd.forward(req, resp);
@@ -59,7 +64,7 @@ public class ListenGuidelineController extends HttpServlet {
 //		session.removeAttribute(WebConstant.MESSAGE_RESPONSE);
 	}
 
-	private void executeSearchListenGuideline(HttpServletRequest req, ListenGuideLineCommand command) {
+	private void executeSearchListenGuideline(HttpServletRequest req, ListenGuidelineCommand command) {
 		Map<String, Object> properties = buildMapProperties(command);
 		RequestUtil.initSearchBear(req, command);
 		Object[] objects = SingletonServiceUtil.getListenGuidelineServiceInstance().findListenGuidelineByProperties(
@@ -70,7 +75,7 @@ public class ListenGuidelineController extends HttpServlet {
 
 	}
 
-	private Map<String, Object> buildMapProperties(ListenGuideLineCommand command) {
+	private Map<String, Object> buildMapProperties(ListenGuidelineCommand command) {
 		Map<String, Object> properties = new HashMap<String, Object>();
 
 		if (StringUtils.isNotBlank(command.getPojo().getTitle())) {
@@ -82,7 +87,7 @@ public class ListenGuidelineController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ListenGuideLineCommand command = new ListenGuideLineCommand();
+		ListenGuidelineCommand command = new ListenGuidelineCommand();
 		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
 		UploadUtil uploadUtil = new UploadUtil();
 		HttpSession session = req.getSession();
