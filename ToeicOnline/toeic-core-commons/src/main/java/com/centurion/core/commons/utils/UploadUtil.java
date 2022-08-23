@@ -27,7 +27,7 @@ public class UploadUtil {
 		String address = context.getRealPath("fileupload");
 		boolean check = true;
 		String fileLocation = null;
-		String namefile = null;
+		String name = null;
 		Map<String, String> mapReturnValue = new HashMap<String, String>();// key = pojo.title, value = ...
 		// Check that we have a file upload request
 		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -52,11 +52,15 @@ public class UploadUtil {
 			List<FileItem> items = upload.parseRequest(request);
 			for (FileItem item : items) {
 				if (!item.isFormField()) {// Nhân giá trị khác formfield
-					String fileName = item.getName();
-					if (StringUtils.isNotBlank(fileName)) {
-						File uploadedFile = new File(address + File.separator + path + File.separator + fileName);
-						fileLocation = address + File.separator + path + File.separator + fileName;
-						namefile = fileName;
+//					String fileName = item.getName();
+//					if (StringUtils.isNotBlank(fileName)) {
+//						File uploadedFile = new File(address + File.separator + path + File.separator + fileName);
+//						fileLocation = address + File.separator + path + File.separator + fileName;
+//						namefile = fileName;
+					name = item.getName();
+					if (StringUtils.isNotBlank(name)) {
+						File uploadedFile = new File(address + File.separator + path + File.separator + name);
+						fileLocation = address + File.separator + path + File.separator + name;
 						boolean isExist = uploadedFile.exists();
 						try {
 							if (isExist) {
@@ -85,7 +89,7 @@ public class UploadUtil {
 			check = false;
 			log.error(e.getMessage(), e);
 		}
-		return new Object[] { check, fileLocation, namefile, mapReturnValue };// check , file location, file name
+		return new Object[] { check, fileLocation, name, mapReturnValue };// check , file location, file name
 
 	}
 }

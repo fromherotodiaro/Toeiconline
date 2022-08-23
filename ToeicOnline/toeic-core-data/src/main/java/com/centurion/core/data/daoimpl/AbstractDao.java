@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,6 +19,8 @@ import com.centurion.core.data.dao.GerericDao;
 import javassist.tools.rmi.ObjectNotFoundException;
 
 public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T> {
+
+	private final Logger log = Logger.getLogger(this.getClass());
 
 	public AbstractDao() {
 
@@ -65,6 +68,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 		} catch (HibernateException e) {
 
 			transaction.rollback();
+			log.error(e.getMessage(), e);
 			throw e;
 		} finally {
 			session.close();
@@ -87,6 +91,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 		} catch (HibernateException e) {
 
 			transaction.rollback();
+			log.error(e.getMessage(), e);
 			throw e;
 		} finally {
 			session.close();
@@ -105,8 +110,8 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
-
 			transaction.rollback();
+			log.error(e.getMessage(), e);
 			throw e;
 		} finally {
 			session.close();
@@ -121,19 +126,18 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 		Transaction transaction = session.beginTransaction();
 		try {
 			result = session.get(persistenceClass, id);
-
 			if (result == null) {
 				throw new ObjectNotFoundException(" " + id, null);
 			}
-
 			transaction.commit();
 			// HQL;
 		} catch (HibernateException e) {
 
 			transaction.rollback();
+			log.error(e.getMessage(), e);
 			throw e;
 		} catch (ObjectNotFoundException e) {
-
+			log.error(e.getMessage(), e);
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -274,6 +278,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			// HQL;
 		} catch (HibernateException e) {
 			transaction.rollback();
+			log.error(e.getMessage(), e);
 			throw e;
 		} finally {
 			session.close();
@@ -295,6 +300,7 @@ public class AbstractDao<ID extends Serializable, T> implements GerericDao<ID, T
 			// HQL;
 		} catch (HibernateException e) {
 			transaction.rollback();
+			log.error(e.getMessage(), e);
 			throw e;
 		} finally {
 			session.close();

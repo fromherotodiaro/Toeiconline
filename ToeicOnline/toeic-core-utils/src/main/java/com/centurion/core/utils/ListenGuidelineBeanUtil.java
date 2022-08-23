@@ -19,6 +19,7 @@ public class ListenGuidelineBeanUtil {
 
 	public static ListenGuidelineEntity dto2Entity(ListenGuidelineDTO dto) {
 		ListenGuidelineEntity entity = new ListenGuidelineEntity();
+		entity.setTitle(dto.getTitle());
 		entity.setListenGuidelineid(dto.getListenGuidelineId());
 		entity.setImage(dto.getImage());
 		entity.setContent(dto.getContent());
