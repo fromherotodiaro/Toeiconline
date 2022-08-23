@@ -89,7 +89,7 @@
 														<i class="fa fa-plus-circle bigger-110 purple"></i>
 												</span>
 												</a>
-												<button type="button" class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" id="deleteAll"
+												<button type="button" class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" id="deleteAll" onclick="warningBeforeDelete()"
 													disabled data-toggle="tooltip" title="<fmt:message key='label.delete.all' bundle='${lang}'/>">
 													<span> <i class="fa fa-trash-o bigger-110 pink"></i>
 													</span>
@@ -126,9 +126,9 @@
 											<a class="btn btn-sm btn-primary btn-edit" href="${editUrl}" data-toggle="tooltip"
 												title="<fmt:message key='label.listenguideline.update' bundle='${lang}'/>"><i
 												class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-											<a class="btn btn-sm btn-danger btn-cancel" data-toggle="tooltip"
+											<%-- <a class="btn btn-sm btn-danger btn-cancel" data-toggle="tooltip"
 												title="<fmt:message key='label.listenguideline.delete' bundle='${lang}'/>"><i class="fa fa-trash"
-												aria-hidden="true"></i></a>
+												aria-hidden="true"></i></a> --%>
 										</display:column>
 									</display:table>
 								</fmt:bundle>
@@ -147,6 +147,10 @@
 				$('#formUrl').submit();
 			})
 		});
+		 function warningBeforeDelete() {
+		        showAlertBeforeDelete(function () {
+		        });
+		    }
 	</script>
 </body>
 </html>
