@@ -57,4 +57,11 @@ public class ListenGuidelineServiceImpl implements ListenGuidelineService {
 		return dto;
 	}
 
+	@Override
+	public Integer delete(List<Integer> ids) {
+		Integer result = SingletonDaoUtil.getListenGuidelineDaoInstance().delete(ids);
+
+		return result;
+	}
+
 }

@@ -134,6 +134,7 @@
 								</fmt:bundle>
 							</div>
 							<input type="hidden" name="urlType" id="urlType" />
+							<input type="hidden" name="crudaction" id="crudaction" />
 						</form>
 					</div>
 				</div>
@@ -149,6 +150,9 @@
 		});
 		 function warningBeforeDelete() {
 		        showAlertBeforeDelete(function () {
+		        	$('#urlType').val('url_list');
+		        	$('#crudaction').val('redirect_delete');
+		        	$('#formUrl').submit();
 		        });
 		    }
 	</script>

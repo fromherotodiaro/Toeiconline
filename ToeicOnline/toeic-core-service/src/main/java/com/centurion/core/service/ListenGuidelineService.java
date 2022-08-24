@@ -1,6 +1,7 @@
 package com.centurion.core.service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -19,4 +20,5 @@ public interface ListenGuidelineService {
 
 	ListenGuidelineDTO updateListenGuideline(ListenGuidelineDTO dto);
 
+	Integer delete(List<Integer> ids);
 }

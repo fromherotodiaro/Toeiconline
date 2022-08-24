@@ -5,7 +5,7 @@ import java.util.List;
 public class AbstractCommand<T> {
 	protected T pojo;
 	private String crudaction;// chuoi cac lenh ("insert, update, delete")
-	private int maxPageItems = 5;// Tổng số item trên 1 trang
+	private int maxPageItems = 2;// Tổng số item trên 1 trang
 	private int firstItem = 0;// Vị trí bắt đầu row item vd: 1-19,20-39
 	private int totalItems = 0;// Tổng số item
 	private String sortExpression;

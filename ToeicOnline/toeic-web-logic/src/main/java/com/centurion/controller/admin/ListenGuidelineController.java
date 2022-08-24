@@ -2,6 +2,7 @@ package com.centurion.controller.admin;
 
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +33,6 @@ import com.centurion.core.web.utils.WebCommonUtil;
 //@WebServlet("/admin-guideline-listen-list.html")
 @WebServlet(urlPatterns = { "/admin-guideline-listen-list.html", "/admin-guideline-listen-edit.html" })
 public class ListenGuidelineController extends HttpServlet {
-
 	private final Logger log = Logger.getLogger(this.getClass());
 
 	@Override
@@ -41,15 +41,35 @@ public class ListenGuidelineController extends HttpServlet {
 		ListenGuidelineCommand command = FormUtil.populate(ListenGuidelineCommand.class, req);
 		ListenGuidelineDTO pojo = command.getPojo();
 		ResourceBundle resourceBundle = ResourceBundle.getBundle("ApplicationResources");
+		int currentPage = command.getPage();
 		if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_LIST)) {
 			executeSearchListenGuideline(req, command);
+			if (command.getPage() != currentPage) {// Sửa lỗi: xóa sau đó nhảy trang khác.
+				command.setCrudaction(null);
+			}
+			if (command.getCrudaction() != null && command.getCrudaction().equals(WebConstant.REDIRECT_DELETE)) {
+				List<Integer> ids = new ArrayList<Integer>();
+				for (String item : command.getCheckList()) {
+					ids.add(Integer.parseInt(item));
+				}
+				Integer result = SingletonServiceUtil.getListenGuidelineServiceInstance().delete(ids);
+				if (result != ids.size()) {
+					command.setCrudaction(WebConstant.REDIRECT_ERROR);
+				}
+				executeSearchListenGuideline(req, command);
+			}
+
 			if (command.getCrudaction() != null) {
 				Map<String, String> mapMessage = buidMapRedirectMessage(resourceBundle);
 				WebCommonUtil.addRedirectMessage(req, command.getCrudaction(), mapMessage);
 			}
 			req.setAttribute(WebConstant.LIST_ITEMS, command);
+
 			RequestDispatcher rd = req.getRequestDispatcher("/views/admin/listenguideline/list.jsp");
 			rd.forward(req, resp);
+
+//			resp.sendRedirect("admin-guideline-listen-list.html?urlType=url_list");
+
 		} else if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_EDIT)) {
 			if (command.getPojo() != null && command.getPojo().getListenGuidelineId() != null) {
 				command.setPojo(SingletonServiceUtil.getListenGuidelineServiceInstance()
@@ -98,7 +118,7 @@ public class ListenGuidelineController extends HttpServlet {
 		Object[] objects = uploadUtil.writeOrUpdateFile(req, valueTitle, WebConstant.LISTENGUIDELINE);
 		boolean checkStatusUploadImage = (Boolean) objects[0];
 		if (!checkStatusUploadImage) {
-			resp.sendRedirect("/admin-guideline-listen-list.html?urlType=url_list&&crudaction=redirect_error");
+			resp.sendRedirect("admin-guideline-listen-list.html?urlType=url_list&&crudaction=redirect_error");
 		} else {
 			ListenGuidelineDTO dto = command.getPojo();
 			if (StringUtils.isNotBlank(objects[2].toString())) {
