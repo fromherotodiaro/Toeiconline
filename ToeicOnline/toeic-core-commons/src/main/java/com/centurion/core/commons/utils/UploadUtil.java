@@ -16,6 +16,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.centurion.core.commons.constant.CoreConstant;
+
 public class UploadUtil {
 	private final Logger log = Logger.getLogger(this.getClass());
 	private final int maxMemorySize = 1024 * 1024 * 3; // 3MBl
@@ -23,8 +25,7 @@ public class UploadUtil {
 
 	public Object[] writeOrUpdateFile(HttpServletRequest request, Set<String> titleValue, String path) {
 
-//		String address = context.getRealPath("image");
-		String address = "/fileupload";
+		String address = "/" + CoreConstant.FOLDER_UPLOAD;
 		checkAndCreateFolder(address, path);
 		boolean check = true;
 		String fileLocation = null;
@@ -82,7 +83,6 @@ public class UploadUtil {
 						try {
 							valueField = item.getString("UTF-8");// luu tieng Viet
 						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
 							log.error(e.getMessage(), e);
 						}
 						if (titleValue.contains(nameField)) {
@@ -96,8 +96,9 @@ public class UploadUtil {
 			check = false;
 			log.error(e.getMessage(), e);
 		}
-		return new Object[] { check, fileLocation, name, mapReturnValue };// check , file location, file name
-
+		return new Object[] { check, fileLocation, path + File.separator + name, mapReturnValue };// check , file
+																									// location, file
+																									// name
 	}
 
 	private void checkAndCreateFolder(String address, String path) {
@@ -105,9 +106,9 @@ public class UploadUtil {
 		if (!folderRoot.exists()) {
 			folderRoot.mkdirs();
 		}
-		File foderChild = new File(address + File.separator + path);
-		if (!foderChild.exists()) {
-			foderChild.mkdirs();
+		File folderChild = new File(address + File.separator + path);
+		if (!folderChild.exists()) {
+			folderChild.mkdirs();
 		}
 	}
 }

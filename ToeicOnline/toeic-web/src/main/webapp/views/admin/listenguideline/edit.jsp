@@ -60,9 +60,10 @@
 										key="label.grammarguideline.upload.image.view" bundle="${lang}" /></label>
 								<div class="col-sm-9">
 									<c:if test="${not empty item.pojo.image}">
-										<c:set var="image" value="${pageContext.request.contextPath}/fileupload/listenguideline/hinhthiennhien.jpg"></c:set>
+										<%-- <c:set var="image" value="${pageContext.request.contextPath}/repository/${item.pojo.image}"></c:set> --%>
+										<c:set var="image" value="${pageContext.request.contextPath}/repository/${item.pojo.image}"/>
 									</c:if>
-									<img alt="" src="${image}" id="viewImage" width="150px" height="150px">
+									<img src="${image}" id="viewImage" width="150px" height="150px">
 								</div>
 							</div>
 							<br /> <br />
