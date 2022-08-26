@@ -40,7 +40,7 @@ public class ListenGuidelineController extends HttpServlet {
 
 		ListenGuidelineCommand command = FormUtil.populate(ListenGuidelineCommand.class, req);
 		ListenGuidelineDTO pojo = command.getPojo();
-		ResourceBundle resourceBundle = ResourceBundle.getBundle("ApplicationResources");
+		ResourceBundle resourceBundle = ResourceBundle.getBundle("ResourcesBundle");
 		int currentPage = command.getPage();
 		if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_LIST)) {
 			executeSearchListenGuideline(req, command);
@@ -112,7 +112,7 @@ public class ListenGuidelineController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ListenGuidelineCommand command = new ListenGuidelineCommand();
-		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
+		ResourceBundle bundle = ResourceBundle.getBundle("ResourcesBundle");
 		UploadUtil uploadUtil = new UploadUtil();
 		Set<String> valueTitle = buildSetValueListenGuideline();
 		Object[] objects = uploadUtil.writeOrUpdateFile(req, valueTitle, WebConstant.LISTENGUIDELINE);

@@ -43,7 +43,7 @@ public class UserController extends HttpServlet {
 	private final String VALIDATE_IMPORT = "validate_import";
 	private final String LIST_USER_IMPORT = "list_user_import";
 	private final String IMPORT_DATA = "import_data";
-	ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
+	ResourceBundle bundle = ResourceBundle.getBundle("ResourcesBundle");
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

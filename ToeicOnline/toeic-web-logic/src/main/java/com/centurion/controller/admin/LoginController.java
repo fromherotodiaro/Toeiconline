@@ -22,7 +22,7 @@ import com.centurion.core.web.utils.SingletonServiceUtil;
 @WebServlet("/login.html")
 public class LoginController extends HttpServlet {
 	private final Logger log = Logger.getLogger(this.getClass());
-	ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources");
+	ResourceBundle bundle = ResourceBundle.getBundle("ResourcesBundle");
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

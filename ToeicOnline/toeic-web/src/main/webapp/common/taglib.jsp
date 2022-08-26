@@ -2,4 +2,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
-<fmt:setBundle basename="ApplicationResources" var="lang" />
+<fmt:setBundle basename="ResourcesBundle" var="lang" />
