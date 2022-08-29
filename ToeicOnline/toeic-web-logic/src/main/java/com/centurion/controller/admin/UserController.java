@@ -31,6 +31,7 @@ import com.centurion.core.dto.UserDTO;
 import com.centurion.core.dto.UserImportDTO;
 import com.centurion.core.web.common.WebConstant;
 import com.centurion.core.web.utils.FormUtil;
+import com.centurion.core.web.utils.RequestUtil;
 import com.centurion.core.web.utils.SingletonServiceUtil;
 import com.centurion.core.web.utils.WebCommonUtil;
 
@@ -53,6 +54,7 @@ public class UserController extends HttpServlet {
 
 		if (command.getUrlType() != null && command.getUrlType().equals(WebConstant.URL_LIST)) {
 			Map<String, Object> mapProperty = new HashMap<String, Object>();
+			RequestUtil.initSearchBean(request, command);// phan trang
 			Object[] objects = SingletonServiceUtil.getUserServiceInstance().findByProperty(mapProperty,
 					command.getSortExpression(), command.getSortDirection(), command.getFirstItem(),
 					command.getMaxPageItems());
@@ -80,13 +82,31 @@ public class UserController extends HttpServlet {
 		} else if (command.getUrlType() != null && command.getUrlType().equals(VALIDATE_IMPORT)) {
 			List<UserImportDTO> userImportDTOs = (List<UserImportDTO>) SessionUtil.getInstance().getValue(request,
 					LIST_USER_IMPORT);
-			command.setMaxPageItems(3);
-			command.setUserImportDTOS(userImportDTOs);
+			command.setUserImportDTOS(returnListUserImport(command, userImportDTOs, request));
 			command.setTotalItems(userImportDTOs.size());
 			request.setAttribute(WebConstant.LIST_ITEMS, command);
 			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/user/importuser.jsp");
 			rd.forward(request, response);
 		}
+	}
+
+	private List<UserImportDTO> returnListUserImport(UserCommand command, List<UserImportDTO> userImportDTOs,
+			HttpServletRequest request) {
+		RequestUtil.initSearchBean(request, command);
+
+		command.setTotalItems(userImportDTOs.size());
+		int fromIndex = command.getFirstItem();
+		if (fromIndex > command.getTotalItems()) {
+			fromIndex = 0;
+			command.setFirstItem(0);
+		}
+		int toIndex = command.getFirstItem() + command.getMaxPageItems();
+		if (userImportDTOs.size() > 0) {
+			if (toIndex > userImportDTOs.size()) {
+				toIndex = userImportDTOs.size();
+			}
+		}
+		return userImportDTOs.subList(fromIndex, toIndex);
 	}
 
 	private Map<String, String> buildMapRedirectMessage(ResourceBundle bundle) {

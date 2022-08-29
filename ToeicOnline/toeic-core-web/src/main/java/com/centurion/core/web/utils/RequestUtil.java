@@ -10,7 +10,7 @@ import com.centurion.core.web.command.AbstractCommand;
 
 public class RequestUtil {
 
-	public static void initSearchBear(HttpServletRequest req, AbstractCommand bean) {
+	public static void initSearchBean(HttpServletRequest req, AbstractCommand bean) {
 
 		if (bean != null) {
 

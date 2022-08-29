@@ -92,7 +92,7 @@ public class ListenGuidelineController extends HttpServlet {
 
 	private void executeSearchListenGuideline(HttpServletRequest req, ListenGuidelineCommand command) {
 		Map<String, Object> properties = buildMapProperties(command);
-		RequestUtil.initSearchBear(req, command);
+		RequestUtil.initSearchBean(req, command);
 		Object[] objects = SingletonServiceUtil.getListenGuidelineServiceInstance().findListenGuidelineByProperties(
 				properties, command.getSortDirection(), command.getSortDirection(), command.getFirstItem(),
 				command.getMaxPageItems());
@@ -165,7 +165,6 @@ public class ListenGuidelineController extends HttpServlet {
 				}
 			}
 		}
-
 	}
 
 	private ListenGuidelineDTO returnValueOfDTO(ListenGuidelineDTO dto, Map<String, String> mapValue) {
@@ -187,7 +186,6 @@ public class ListenGuidelineController extends HttpServlet {
 		returnValue.add("pojo.content");
 		returnValue.add("pojo.listenGuidelineId");
 		return returnValue;
-
 	}
 
 }
