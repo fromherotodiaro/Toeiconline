@@ -13,22 +13,28 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.centurion.command.UserCommand;
+import com.centurion.core.commons.utils.SessionUtil;
 import com.centurion.core.dto.CheckLogin;
 import com.centurion.core.dto.UserDTO;
 import com.centurion.core.web.common.WebConstant;
 import com.centurion.core.web.utils.FormUtil;
 import com.centurion.core.web.utils.SingletonServiceUtil;
 
-@WebServlet("/login.html")
+@WebServlet(urlPatterns = { "/login.html", "/logout.html" })
 public class LoginController extends HttpServlet {
 	private final Logger log = Logger.getLogger(this.getClass());
 	ResourceBundle bundle = ResourceBundle.getBundle("ResourcesBundle");
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		RequestDispatcher rd = req.getRequestDispatcher("/views/web/login.jsp");
-		rd.forward(req, resp);
+		String action = req.getParameter("action");
+		if (action.equals(WebConstant.LOGIN)) {
+			RequestDispatcher rd = req.getRequestDispatcher("/views/web/login.jsp");
+			rd.forward(req, resp);
+		} else if (action.equals(WebConstant.LOGOUT)) {
+			SessionUtil.getInstance().romove(req, WebConstant.LOGIN_NAME);
+			resp.sendRedirect("home.html");
+		}
 
 	}
 
@@ -41,6 +47,7 @@ public class LoginController extends HttpServlet {
 			CheckLogin login = SingletonServiceUtil.getUserServiceInstance().checkLogin(pojo.getName(),
 					pojo.getPassword());
 			if (login.isUserExist()) {
+				SessionUtil.getInstance().putValue(request, WebConstant.LOGIN_NAME, pojo.getName());
 				if (login.getRoleName().equals(WebConstant.ROLE_ADMIN)) {
 					response.sendRedirect("admin-home.html");
 				} else if (login.getRoleName().equals(WebConstant.ROLE_USER)) {

@@ -26,11 +26,12 @@
 								${messageResponse}
 							</div>
 						</c:if>
-						<label class="block clearfix"> <span class="block input-icon input-icon-right"> <input type="text" class="form-control" placeholder="Username" name="pojo.name" />
-								<i class="ace-icon fa fa-user"></i>
+						<label class="block clearfix"> <span class="block input-icon input-icon-right"> <input type="text"
+								class="form-control" placeholder="Username" name="pojo.name" /> <i class="ace-icon fa fa-user"></i>
 						</span>
-						</label> <label class="block clearfix"> <span class="block input-icon input-icon-right"> <input type="password" class="form-control" placeholder="Password"
-								name="pojo.password" /> <i class="ace-icon fa fa-lock"></i>
+						</label> <label class="block clearfix"> <span class="block input-icon input-icon-right"> <input
+								type="password" class="form-control" placeholder="Password" name="pojo.password" /> <i
+								class="ace-icon fa fa-lock"></i>
 						</span>
 						</label>
 						<div class="space"></div>
@@ -44,15 +45,7 @@
 						<div class="space-4"></div>
 					</fieldset>
 				</form>
-				<div class="social-or-login center">
-				</div>
-				<div class="space-6"></div>
-				<div class="social-login center">
-					<a class="btn btn-primary"> <i class="ace-icon fa fa-facebook"></i>
-					</a> <a class="btn btn-info"> <i class="ace-icon fa fa-twitter"></i>
-					</a> <a class="btn btn-danger"> <i class="ace-icon fa fa-google-plus"></i>
-					</a>
-				</div>
+				
 			</div>
 			<!-- /.widget-main -->
 			<!-- <div class="toolbar clearfix">

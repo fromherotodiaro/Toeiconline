@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@include file="/common/taglib.jsp"%>
-<c:redirect url="/login.html"/>
+<c:redirect url="/home.html"/>
 
 
 
